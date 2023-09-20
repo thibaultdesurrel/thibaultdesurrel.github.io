@@ -187,7 +187,9 @@ collections:
   talks:
     output: true
     permalink: /:collection/:path/
-
+  reduced_geo_tSNE_1:
+    output: true
+    permalink: /:collection/:path/
 
 # Defaults
 defaults:
