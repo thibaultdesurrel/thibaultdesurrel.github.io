@@ -51,6 +51,16 @@ layout: default
           <p>Recommended citation: {{ page.citation }} </p>
         {% endif %}
 
+        {% if post.paperurl %}
+           <a href=" {{ post.paperurl }} ">Download paper here</a>
+        {% endif %}
+        {% if post.HAL %}
+           <a href=" {{ post.HAL }} ">HAL</a>
+        {% endif %}
+        {% if post.arXiv %}
+           <a href=" {{ post.arXiv }} ">arXiv</a>
+        {% endif %}
+
         </header>
       {% endunless %}
 
