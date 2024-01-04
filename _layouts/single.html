@@ -51,14 +51,14 @@ layout: default
           <p>Recommended citation: {{ page.citation }} </p>
         {% endif %}
 
-        {% if post.paperurl %}
-           <a href=" {{ post.paperurl }} ">Download paper here</a>
+        {% if page.paperurl %}
+           <a href=" {{ page.paperurl }} ">Download paper here</a>
         {% endif %}
-        {% if post.HAL %}
-           <a href=" {{ post.HAL }} ">HAL</a>
+        {% if page.HAL %}
+           <a href=" {{ page.HAL }} ">HAL</a>
         {% endif %}
-        {% if post.arXiv %}
-           <a href=" {{ post.arXiv }} ">arXiv</a>
+        {% if page.arXiv %}
+           <a href=" {{ page.arXiv }} ">arXiv</a>
         {% endif %}
 
         </header>
