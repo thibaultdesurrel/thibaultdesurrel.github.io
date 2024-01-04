@@ -13,7 +13,7 @@ Education
 ======
 * B.S. in GitHub, GitHub University, 2012
 * M.S. in Jekyll, GitHub University, 2014
-* Ph.D in Computer Science, Université Paris Dauphine, 2026 (expected)
+* Ph.D in Computer Science, Université Paris Dauphine-PSL, 2026 (expected)
 
 Work experience
 ======
