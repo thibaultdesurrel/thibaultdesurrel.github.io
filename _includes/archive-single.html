@@ -59,14 +59,14 @@
       <p>Recommended citation: {{ post.citation }} <a href="{{ post.paperurl }}"><u>{{ post.paperurl }}</u></a></p>
     {% elsif post.citation %}
       <p>Recommended citation: {{ post.citation }} </p>
-    {% elsif post.paperurl %}
+    {% if post.paperurl %}
       <p>Download <a href=" {{ post.paperurl }} "><u>here</u></a></p>
     {% endif %}
-    {% elsif post.HAL %}
-      <p>Download <a href=" {{ post.HAL }} "><u>here</u></a></p>
+    {% if post.HAL %}
+      <p>HAL <a href=" {{ post.HAL }} "><u>here</u></a></p>
     {% endif %}
-    {% elsif post.arXiv %}
-      <p>Download <a href=" {{ post.arXiv }} "><u>here</u></a></p>
+    {% if post.arXiv %}
+      <p>arXiv <a href=" {{ post.arXiv }} "><u>here</u></a></p>
     {% endif %}
 
   </article>
