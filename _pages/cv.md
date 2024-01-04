@@ -11,7 +11,7 @@ redirect_from:
 
 Education
 ======
-* 2026 (expected): Ph.D in Computer Science, Université Paris Dauphine-PSL,
+* 2023-2026 (expected): Ph.D in Computer Science, Université Paris Dauphine-PSL,
   * Topic: Learning context invariant representations for EEG data
 
 * 2022-2023: [Master Year 2 Mathematics, Vision, Learning](https://www.universite-paris-saclay.fr/en/education/master/mathematics-and-applications/m2-mathematics-vision-learning), [ENS Paris-Saclay](https://ens-paris-saclay.fr), France
@@ -32,7 +32,7 @@ Internships
 * April-October 2023:
   * [LAMSADE](https://www.lamsade.Dauphine.fr) at [Université Paris Dauphine-PSL](https://Dauphine.psl.eu)
   * Goal: Matching trajectories of covariance matrices on a non-Euclidean manifold with applications to EEGs.
-  * Supervisor: [Florian Yger](https://www.lamsade.Dauphine.fr/fr/personnes/detail-cv/profile/florian-yger.html), [Sylvain Chevallier](https://sylvchev.github.io) and [Fabien Lotte](https://sites.google.com/site/fabienlotte/Home)
+  * Supervisors: [Florian Yger](https://www.lamsade.Dauphine.fr/fr/personnes/detail-cv/profile/florian-yger.html), [Sylvain Chevallier](https://sylvchev.github.io) and [Fabien Lotte](https://sites.google.com/site/fabienlotte/Home)
 
 * May-August 2021:
   * [DataShape team](https://team.inria.fr/datashape/) at Inria Sophia-Antipolis
@@ -48,7 +48,7 @@ Publications
   <ul>{% for post in site.publications %}
     {% include archive-single-cv.html %}
   {% endfor %}</ul>
-  
+
 <!--
 Talks
 ======
