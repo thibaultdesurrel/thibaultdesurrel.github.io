@@ -8,4 +8,4 @@ date: 2024-01-01
 location: "Paris, France"
 ---
 
-Teaching supervisor : [Guillaume Legendre](https://www.ceremade.Dauphine-PSL.fr/~legendre/)
+Teaching supervisor : [Guillaume Legendre](https://www.ceremade.dauphine.fr/~legendre/)
