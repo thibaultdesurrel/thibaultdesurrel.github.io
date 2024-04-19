@@ -8,4 +8,4 @@ date: 2024-01-01
 location: "Paris, France"
 ---
 
-Teaching supervisor : [Vincent Rivoirard](https://www.ceremade.Dauphine-PSL.fr/~rivoirar/)
+Teaching supervisor : [Vincent Rivoirard](https://www.ceremade.dauphine.fr/~rivoirar/)

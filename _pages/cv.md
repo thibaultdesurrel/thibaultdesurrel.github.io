@@ -34,6 +34,7 @@ Internships
   * [LAMSADE](https://www.lamsade.Dauphine.fr) at [Université Paris Dauphine-PSL](https://Dauphine.psl.eu)
   * Goal: Matching trajectories of covariance matrices on a non-Euclidean manifold with applications to EEGs.
   * Supervisors: [Florian Yger](https://www.lamsade.Dauphine.fr/fr/personnes/detail-cv/profile/florian-yger.html), [Sylvain Chevallier](https://sylvchev.github.io) and [Fabien Lotte](https://sites.google.com/site/fabienlotte/Home)
+  * Awarded *Best Internship of 2023* by the ENSTA Paris Alumni
 
 * **May-August 2021**:
   * [DataShape team](https://team.inria.fr/datashape/) at Inria Sophia-Antipolis
