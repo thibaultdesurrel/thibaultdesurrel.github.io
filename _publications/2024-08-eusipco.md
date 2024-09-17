@@ -3,7 +3,7 @@ title: "Averaging trajectories on the manifold of symmetric positive definite ma
 collection: publications
 permalink: /publication/2024-08-eusipco
 #excerpt: 'This paper is about the number 1. The number 2 is left for future work.'
-date: 2024-08
+date: 2024-08-30
 venue: 'EUSIPCO 2024'
 authors: 'TdS, Florian Yger, Sylvain Chevallier and Fabien Lotte'
 paperurl: 'http://thibaultdesurrel.github.io/files/eusipco_2024.pdf'
