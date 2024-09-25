@@ -7,7 +7,7 @@ date: 2024-08-30
 venue: 'EUSIPCO 2024'
 authors: 'TdS, Florian Yger, Sylvain Chevallier and Fabien Lotte'
 paperurl: 'http://thibaultdesurrel.github.io/files/eusipco_2024.pdf'
-#HAL: 'https://inria.hal.science/hal-03560450'
+HAL: 'https://hal.science/hal-04708878'
 #arXiv: 'https://arxiv.org/abs/2202.01725'
 #citation: 'Your Name, You. (2009). &quot;Paper Title Number 1.&quot; <i>Journal 1</i>. 1(1).'
 ---
