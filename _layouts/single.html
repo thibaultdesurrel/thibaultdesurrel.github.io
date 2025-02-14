@@ -49,12 +49,12 @@ layout: default
         {% if page.authors %}
           <p><i>{{ page.authors }}</i></p>
         {% endif %}
-        {% if page.arXiv %}
+        <!--{% if page.arXiv %}
           <a href="{{ page.arXiv }}">View on arXiv</a>
         {% endif %}
         {% if page.paperurl %}
           | <a href="{{ page.paperurl }}">Download PDF</a>
-        {% endif %}
+        {% endif %}-->
         <br>
       {% endif %}
 
@@ -66,13 +66,13 @@ layout: default
         {% endif %}
 
         {% if page.paperurl %}
-           <a href=" {{ page.paperurl }} ">Download paper</a>,
+           <a href=" {{ page.paperurl }} ">Download paper</a>
         {% endif %}
         {% if page.HAL %}
-           <a href=" {{ page.HAL }} ">HAL</a>,
+           | <a href=" {{ page.HAL }} ">View on HAL</a>
         {% endif %}
         {% if page.arXiv %}
-           <a href=" {{ page.arXiv }} ">arXiv</a>
+           | <a href=" {{ page.arXiv }} ">View on arXiv</a>
         {% endif %}
         <br />
 
