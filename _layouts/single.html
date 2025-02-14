@@ -44,6 +44,20 @@ layout: default
           <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> {{ site.data.ui-text[site.locale].date_label | default: "Published:" }}</strong> <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | default: "1900-01-01" | date: "%B %d, %Y" }}</time></p>
         {% endif %}
 
+        {% if page.collection == 'preprints' %}
+        <p><strong>Preprint:</strong></p>
+        {% if page.authors %}
+          <p><i>{{ page.authors }}</i></p>
+        {% endif %}
+        {% if page.arXiv %}
+          <a href="{{ page.arXiv }}">View on arXiv</a>
+        {% endif %}
+        {% if page.paperurl %}
+          | <a href="{{ page.paperurl }}">Download PDF</a>
+        {% endif %}
+        <br>
+      {% endif %}
+
 
         {% if page.citation and page.paperurl %}
           <p>Recommended citation: {{ page.citation }} <a href="{{ page.paperurl }}"><u>{{ page.paperurl }}</u></a></p>
