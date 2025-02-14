@@ -6,7 +6,7 @@ permalink: /preprint/2025-02-arxiv_WG
 #excerpt: 'This paper is about the number 1. The number 2 is left for future work.'
 date: 2025-02-03
 #venue: 'Transactions on Machine Learning Research'
-authors: 'TdS, Sylvain Chevallier and Fabien Lotte, Florian Yger,'
+authors: 'TdS, Fabien Lotte, Sylvain Chevallier and Florian Yger'
 paperurl: 'http://thibaultdesurrel.github.io/files/Arxiv_WG.pdf'
 #HAL: 'https://hal.science/hal-04942016'
 arXiv: 'https://arxiv.org/abs/2502.01512'
