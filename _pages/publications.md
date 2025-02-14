@@ -16,7 +16,7 @@ author_profile: true
 {% endfor %}
 
 Preprints
-
+======
 
 {% for post in site.preprints reversed %}
   {% include archive-single.html %}
