@@ -4,7 +4,7 @@ collection: teaching
 type: "TD - M1 Math"
 permalink: /teaching/2025-Linear-models
 venue: "Université Paris Dauphine-PSL"
-date: [2025]
+date: [2025,]
 location: "Paris, France"
 ---
 
