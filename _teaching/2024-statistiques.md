@@ -4,7 +4,7 @@ collection: teaching
 type: "TD - Licence 3"
 permalink: /teaching/2024-statistiques
 venue: "Université Paris Dauphine-PSL"
-date: 2024-01-01
+date: [2024, 2025, 2026]
 location: "Paris, France"
 ---
 
