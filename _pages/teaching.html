@@ -8,15 +8,5 @@ author_profile: true
 {% include base_path %}
 
 {% for post in site.teaching reversed %}
-  {{ post.type }}, <i>{{ post.venue }}</i>
-  {% if post.years %}
-  {% assign sorted_years = post.years | sort %}
-  {% if sorted_years.size > 1 %}
-  , {{ sorted_years | first }}–{{ sorted_years | last }}
-  {% else %}
-  , {{ sorted_years | first }}
-  {% endif %}
-  {% else %}
-  , {{ post.date | default: "1900-01-01" | date: "%Y" }}
-  {% endif %}
+  {% include archive-single.html %}
 {% endfor %}
