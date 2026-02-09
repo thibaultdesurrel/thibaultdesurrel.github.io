@@ -87,8 +87,16 @@
     border-radius: 50%;
 
     @include breakpoint($large) {
-      padding: 5px;
-      border: 1px solid $border-color;
+      padding: 4px;
+      border: 2px solid $primary-color;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      -webkit-transition: $global-transition;
+      transition: $global-transition;
+
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      }
     }
   }
 }
@@ -119,6 +127,9 @@
 .sidebar .author__name {
   font-family: $sans-serif;
   font-size: $type-size-5;
+  font-weight: 700;
+  color: $primary-color;
+  white-space: nowrap;
 }
 
 .author__bio {
@@ -218,20 +229,25 @@
 
   li {
     white-space: nowrap;
+    padding: 4px 8px;
+    margin-bottom: 2px;
+    border-radius: $border-radius;
+    -webkit-transition: $global-transition;
+    transition: $global-transition;
+
+    &:hover {
+      background-color: rgba($primary-color, 0.08);
+    }
   }
 
   a {
     display: block;
-    margin-bottom: 5px;
-    padding-right: 5px;
-    padding-top: 2px;
-    padding-bottom: 2px;
     color: inherit;
     font-size: $type-size-5;
     text-decoration: none;
 
     &:hover {
-      text-decoration: underline;
+      text-decoration: none;
     }
   }
 }

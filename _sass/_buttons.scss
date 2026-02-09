@@ -22,8 +22,13 @@
   border-radius: $border-radius;
   cursor: pointer;
 
+  -webkit-transition: $global-transition;
+  transition: $global-transition;
+
   &:hover {
-    background-color: mix(white, #000, 20%);
+    background-color: darken($primary-color, 10%);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
   }
 
   .icon {
