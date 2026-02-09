@@ -1,2 +1,24 @@
+# Jekyll build output
 _site/
 
+# Ruby / Bundler
+vendor/
+.bundle/
+Gemfile.lock
+
+# macOS
+.DS_Store
+
+# Jupyter
+.ipynb_checkpoints/
+.jupyter/
+
+# IDE / editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Claude Code
+.claude/

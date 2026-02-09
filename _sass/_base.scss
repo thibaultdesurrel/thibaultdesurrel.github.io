@@ -13,7 +13,9 @@ body {
   padding-bottom: 9em;
   color: $text-color;
   font-family: $global-font-family;
-  line-height: 1.5;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 
   &.overflow--hidden {
     /* when primary navigation is visible, the content in the background won't scroll */
@@ -26,6 +28,7 @@ h1, h2, h3, h4, h5, h6 {
   line-height: 1.2;
   font-family: $header-font-family;
   font-weight: bold;
+  color: #0f172a;
 }
 
 h1 {
@@ -98,6 +101,8 @@ blockquote {
   padding-right: 1em;
   font-style: italic;
   border-left: 0.25em solid $primary-color;
+  background-color: rgba($primary-color, 0.03);
+  border-radius: 0 $border-radius $border-radius 0;
 
   cite {
     font-style: italic;
