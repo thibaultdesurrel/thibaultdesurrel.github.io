@@ -5,7 +5,7 @@ permalink: /publication/2024-08-eusipco
 #excerpt: 'This paper is about the number 1. The number 2 is left for future work.'
 date: 2024-08-30
 venue: 'EUSIPCO'
-authors: 'TdS, Florian Yger, Sylvain Chevallier and Fabien Lotte'
+authors: '**Thibault de Surrel**, Florian Yger, Sylvain Chevallier and Fabien Lotte'
 paperurl: 'http://thibaultdesurrel.github.io/files/eusipco_2024.pdf'
 HAL: 'https://hal.science/hal-04708878'
 #arXiv: 'https://arxiv.org/abs/2202.01725'
