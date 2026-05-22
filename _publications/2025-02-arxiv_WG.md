@@ -6,7 +6,7 @@ permalink: /publication/2025-02-arxiv_WG
 #excerpt: 'This paper is about the number 1. The number 2 is left for future work.'
 date: 2025-07-05
 venue: 'International Conference on Machine Learning (ICML)'
-authors: 'TdS, Fabien Lotte, Sylvain Chevallier and Florian Yger'
+authors: '**Thibault de Surrel**, Fabien Lotte, Sylvain Chevallier and Florian Yger'
 paperurl: 'http://thibaultdesurrel.github.io/files/WG_ICML_2025.pdf'
 HAL: 'https://hal.science/hal-05158268v1'
 #arXiv: 'https://arxiv.org/abs/2502.01512'
