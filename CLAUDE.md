@@ -13,7 +13,7 @@ The system Ruby (2.6) is too old for the required gems. A conda environment `jek
 ```bash
 conda activate jekyll
 bundle install                 # Install Ruby dependencies (delete Gemfile.lock if errors)
-bundle exec jekyll liveserve   # Serve locally at localhost:4000 with live reload
+bundle exec jekyll serve --livereload   # Serve locally at localhost:4000 with live reload
 ```
 
 Use `_config.dev.yml` to override settings for local development (disables analytics, uses localhost URL).
