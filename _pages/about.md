@@ -16,4 +16,4 @@ The tools I use for this work come from the machine learning world, but also fro
 
 Feel free to contact me if you want to learn more about my research ! 
 
-I also love flan ! 
+I also love flan ! In order to have a curated list of the flans I have tested, please to [here](/flan/) ! 
