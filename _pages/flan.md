@@ -5,7 +5,7 @@ permalink: /flan/
 author_profile: true
 ---
 
-Voici un aperçu des flans que j'ai dégusté. 
+Voici un aperçu des flans que j'ai dégustés. 
 
 {% for flan in site.data.flans %}
 <div style="border: 1px solid #ddd; border-radius: 8px; padding: 1.5em; margin-bottom: 2em;">
