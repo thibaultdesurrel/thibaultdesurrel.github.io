@@ -86,7 +86,7 @@ author:
   location         : "Paris, France"
   employer         :
   pubmed           : # "https://www.ncbi.nlm.nih.gov/pubmed/?term=john+snow"
-  googlescholar    : "https://scholar.google.com/citations?user=CfShNGwAAAAJ&hl=fr&oi=ao"
+  googlescholar    : https://scholar.google.com/citations?user=CfShNGwAAAAJ&hl=fr&oi=ao
   email            : thibault.de-surrel@lamsade.dauphine.fr
   researchgate     :  # example: "https://www.researchgate.net/profile/yourprofile"
   uri              :
