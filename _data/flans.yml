@@ -5,3 +5,16 @@
   description: Le nouveau flan de la boulangerie Tranché. Une très bonne pâte croustillante et un flan très crémeux avec un bon goût d'œuf. Légèrement plus de vanille ne serait pas de refus.
   rating: 4.5
   prix: 4.5
+  lat: 48.889204
+  lng: 2.318626
+
+- name: Boulangerie Éveil
+  address: 100 Rue Legendre, 75017 Paris
+  date: Juillet 2026
+  photo: /images/flan/eveil.jpeg
+  description: Très bon flan avec un bon goût de vanille. L'appareil à flan est très cremeux et peut être un peu écoeurnant pour certains. Un flan très agréable à déguster et remarquable pour son prix !
+  rating: 4.5
+  prix: 2.7
+  lat: 48.887707
+  lng: 2.3205
+
