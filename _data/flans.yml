@@ -1,12 +1,12 @@
-- name: Boulangerie Tranché
-  address: 22 Rue Brochant, 75017 Paris
-  date: Juin 2026
-  photo: /images/flan/tranche.jpg
-  description: Le nouveau flan de la boulangerie Tranché. Une très bonne pâte croustillante et un flan très crémeux avec un bon goût d'œuf. Légèrement plus de vanille ne serait pas de refus.
+- name: À la Mère de Famille
+  address: 58 Rue de Lévis, 75017 Paris
+  date: Septembre 2026
+  photo: /images/flan/mere_de_famille.jpg
+  description: Excellent flan qui est très généreux en vanille, avec une très bonne pâte feuilletée et un glaçage qui rend le tout excellent. Un must pour les amateurs de flan à Paris ! 
   rating: 4.5
-  prix: 4.5
-  lat: 48.889204
-  lng: 2.318626
+  prix: 4.9
+  lat: 48.883894
+  lng: 2.313625
 
 - name: Boulangerie Éveil
   address: 100 Rue Legendre, 75017 Paris
@@ -17,4 +17,16 @@
   prix: 2.7
   lat: 48.887707
   lng: 2.3205
+
+
+- name: Boulangerie Tranché
+  address: 22 Rue Brochant, 75017 Paris
+  date: Juin 2026
+  photo: /images/flan/tranche.jpg
+  description: Le nouveau flan de la boulangerie Tranché. Une très bonne pâte croustillante et un flan très crémeux avec un bon goût d'œuf. Légèrement plus de vanille ne serait pas de refus.
+  rating: 4.5
+  prix: 4.5
+  lat: 48.889204
+  lng: 2.318626
+
 
