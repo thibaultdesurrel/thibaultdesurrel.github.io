@@ -1,0 +1,43 @@
+# =============================================================================
+#  Teaching
+#
+#  One block per course, newest first. Copy an existing block to add a new one.
+#
+#    - title: "Name of the course"
+#      level: "TD/TP — Licence 3"          # the kind of class and the level
+#      venue: "Université Paris Dauphine-PSL"
+#      years: [2025, 2026]                 # every year you taught it
+#      supervisor: "Firstname Lastname"    # optional, delete the line if none
+#      supervisor_url: "https://..."       # optional, delete the line if none
+#
+#  If you teach the same course again, just add the new year to the `years`
+#  list — no need to create a second block.
+# =============================================================================
+
+- title: "Linear Models and their Generalizations"
+  level: "TD — M1 Mathematics"
+  venue: "Université Paris Dauphine-PSL"
+  years: [2025]
+  supervisor: "Katia Meziani"
+  supervisor_url: "https://sites.google.com/site/katiameziani00/"
+
+- title: "Statistiques mathématiques"
+  level: "TD — Licence 3"
+  venue: "Université Paris Dauphine-PSL"
+  years: [2024, 2025, 2026]
+  supervisor: "Vincent Rivoirard"
+  supervisor_url: "https://www.ceremade.dauphine.fr/~rivoirar/"
+
+- title: "Méthodes numériques — Introduction à l'analyse numérique et au calcul scientifique"
+  level: "TD/TP — Licence 2"
+  venue: "Université Paris Dauphine-PSL"
+  years: [2024, 2025]
+  supervisor: "Guillaume Legendre"
+  supervisor_url: "https://www.ceremade.dauphine.fr/~legendre/"
+
+- title: "Fondement du Machine Learning"
+  level: "TD/TP — Licence 3"
+  venue: "Université Paris Dauphine-PSL"
+  years: [2024]
+  supervisor: "Clément Royer"
+  supervisor_url: "https://www.lamsade.dauphine.fr/~croyer/"

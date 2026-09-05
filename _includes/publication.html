@@ -1,0 +1,49 @@
+{%- comment -%}
+  Renders one publication.
+
+  Expects `include.pub` — one file from the `_publications/` folder.
+
+  The abstract uses the browser's built-in <details> element: clicking
+  "Abstract" expands it, with no JavaScript involved. The abstract must sit
+  INSIDE the <details> tag for that to work.
+{%- endcomment -%}
+
+{%- assign abstract = include.pub.content | strip -%}
+
+<article class="pub">
+
+  <h3 class="pub__title">{{ include.pub.title }}</h3>
+
+  <p class="pub__authors">{{ include.pub.authors | markdownify | remove: '<p>' | remove: '</p>' }}</p>
+
+  <div class="pub__meta">
+    <span class="pub__venue">{{ include.pub.venue }}</span>
+
+    {%- if include.pub.pdf %}
+      <span class="pub__sep">·</span>
+      <a class="pub__link" href="{{ include.pub.pdf | relative_url }}">PDF</a>
+    {%- endif %}
+
+    {%- if include.pub.hal %}
+      <span class="pub__sep">·</span>
+      <a class="pub__link" href="{{ include.pub.hal }}">HAL</a>
+    {%- endif %}
+
+    {%- if include.pub.arxiv %}
+      <span class="pub__sep">·</span>
+      <a class="pub__link" href="{{ include.pub.arxiv }}">arXiv</a>
+    {%- endif %}
+
+    {%- comment -%}
+      Only offer the toggle if the file actually has an abstract. It gets no
+      "·" before it because it always starts on its own line.
+    {%- endcomment -%}
+    {%- if abstract != "" %}
+      <details class="pub__abstract">
+        <summary>Abstract</summary>
+        <div class="pub__abstract-body">{{ include.pub.content | markdownify }}</div>
+      </details>
+    {%- endif %}
+  </div>
+
+</article>

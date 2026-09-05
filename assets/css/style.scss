@@ -1,0 +1,581 @@
+---
+# The two lines of dashes at the top tell Jekyll to process this file.
+# Do not remove them, even though they look like they do nothing.
+---
+
+/* ===========================================================================
+   Thibault de Surrel — site stylesheet
+
+   This is the ONLY stylesheet on the site. It is organised top to bottom as:
+
+     1. Colours and fonts       (change these to restyle the whole site)
+     2. Base typography
+     3. Header and navigation
+     4. Page sections
+     5. Homepage: intro, news, publications, teaching
+     6. Flan page
+     7. Footer
+     8. Small screens
+
+   Colours are defined once, as variables, in section 1. Everything else
+   refers to them by name — so changing the accent colour in one place
+   changes every link on the site.
+   =========================================================================== */
+
+
+/* 1. Colours and fonts ---------------------------------------------------- */
+
+:root {
+  /* Light theme (the default) */
+  --bg:          #fdfcfa;   /* page background, a warm off-white */
+  --bg-soft:     #f6f4f0;   /* slightly darker: cards, hovered rows */
+  --text:        #1c1c1c;   /* body text */
+  --muted:       #6b6862;   /* dates, venues, secondary detail */
+  --accent:      #1a4d7a;   /* links and highlights, a deep blue */
+  --accent-soft: #e8eff5;   /* faint accent wash */
+  --rule:        #e3ded5;   /* hairlines and borders */
+
+  --font-serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia,
+                "Times New Roman", serif;
+  --font-sans:  -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+                Helvetica, Arial, sans-serif;
+
+  --measure: 46rem;   /* how wide the text column is allowed to get */
+}
+
+/* Dark theme. This block is used automatically when the visitor's computer
+   is set to dark mode. The variable names are identical — only the values
+   change — so nothing else in this file needs to know about dark mode. */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg:          #16171a;
+    --bg-soft:     #1e2024;
+    --text:        #e6e4e0;
+    --muted:       #9b9791;
+    --accent:      #85b4de;
+    --accent-soft: #1f2a35;
+    --rule:        #2c2e33;
+  }
+
+  /* Photographs look harsh at full brightness on a dark page. */
+  img { opacity: 0.92; }
+}
+
+
+/* 2. Base typography ------------------------------------------------------ */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;   /* so anchors don't hide under the sticky nav */
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-serif);
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+
+  /* Stops a very long word or URL from pushing the page sideways on a phone. */
+  overflow-wrap: break-word;
+}
+
+p { margin: 0 0 1.1em; }
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.15s ease;
+}
+a:hover { border-bottom-color: var(--accent); }
+
+strong { font-weight: 600; }
+
+img { max-width: 100%; height: auto; }
+
+h1, h2, h3 {
+  font-weight: 600;
+  line-height: 1.25;
+  margin: 0 0 0.5em;
+}
+
+/* Keep the keyboard focus ring visible — it is how people who navigate
+   without a mouse know where they are. */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+
+/* 3. Header and navigation ------------------------------------------------ */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter: saturate(160%) blur(10px);
+  -webkit-backdrop-filter: saturate(160%) blur(10px);
+  border-bottom: 1px solid var(--rule);
+}
+
+/* Browsers too old for color-mix get a solid background instead. */
+@supports not (background: color-mix(in srgb, red 50%, blue)) {
+  .site-header { background: var(--bg); }
+}
+
+.site-nav {
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding: 0.85rem 1.5rem;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.site-nav__name {
+  font-weight: 600;
+  font-size: 1.02rem;
+  color: var(--text);
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+}
+.site-nav__name:hover { border-bottom-color: transparent; color: var(--accent); }
+
+.site-nav__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.15rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-sans);
+  font-size: 0.845rem;
+  letter-spacing: 0.02em;
+}
+
+.site-nav__links a {
+  color: var(--muted);
+  padding-bottom: 1px;
+}
+.site-nav__links a:hover { color: var(--accent); }
+
+
+/* 4. Page sections -------------------------------------------------------- */
+
+.page {
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding: 3.5rem 1.5rem 1rem;
+}
+
+.section { margin-bottom: 3.75rem; }
+
+/* Section headings: small caps in the sans face, with a hairline underneath.
+   Deliberately quiet, so the content is what you notice. */
+.section__title {
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.13em;
+  color: var(--muted);
+  padding-bottom: 0.55rem;
+  margin-bottom: 1.75rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+
+/* 5a. Homepage intro ------------------------------------------------------ */
+
+.intro {
+  display: flex;
+  align-items: flex-start;
+  gap: 2rem;
+  margin-bottom: 2.5rem;
+}
+
+.intro__photo {
+  flex: 0 0 auto;
+  width: 145px;
+  height: 145px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid var(--rule);
+}
+
+.intro__text { flex: 1 1 auto; min-width: 0; }
+
+.intro__name {
+  font-size: 1.95rem;
+  letter-spacing: -0.015em;
+  margin-bottom: 0.3rem;
+}
+
+.intro__role {
+  color: var(--muted);
+  font-size: 1.02rem;
+  line-height: 1.5;
+  margin-bottom: 0.9rem;
+}
+
+/* The row of email / Scholar / GitHub / LinkedIn links. */
+.intro__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.1rem;
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+}
+
+.intro__links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--muted);
+}
+.intro__links a:hover { color: var(--accent); }
+.intro__links svg { width: 15px; height: 15px; flex: none; }
+
+.bio p:last-child { margin-bottom: 0; }
+
+
+/* 5b. News ---------------------------------------------------------------- */
+
+.news { list-style: none; margin: 0; padding: 0; }
+
+.news__item {
+  display: grid;
+  grid-template-columns: 5rem 1fr;     /* date column, then the text */
+  gap: 0 1.4rem;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid var(--rule);
+}
+.news__item:last-child { border-bottom: none; }
+
+.news__date {
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  padding-top: 0.28rem;
+  white-space: nowrap;
+}
+
+.news__text p { margin: 0; }
+
+/* Hidden until the "show all" button is pressed — see the script on the
+   homepage. Without JavaScript, everything simply shows. */
+.news__item[hidden] { display: none; }
+
+.news__more {
+  margin-top: 1.1rem;
+  background: none;
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  padding: 0.35rem 1.1rem;
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  color: var(--muted);
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+.news__more:hover { border-color: var(--accent); color: var(--accent); }
+
+
+/* 5c. Publications -------------------------------------------------------- */
+
+.pub-year {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+  margin: 2rem 0 0.9rem;
+}
+.pub-year:first-of-type { margin-top: 0; }
+
+.pub {
+  padding: 0.85rem 0;
+  border-bottom: 1px solid var(--rule);
+}
+.pub:last-child { border-bottom: none; }
+
+.pub__title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  line-height: 1.4;
+  margin: 0 0 0.25rem;
+}
+
+.pub__authors {
+  font-size: 0.94rem;
+  color: var(--muted);
+  margin: 0 0 0.3rem;
+}
+/* Your own name is bold in the author list — keep it in the body colour so
+   it stands out from the co-authors. */
+.pub__authors strong { color: var(--text); font-weight: 600; }
+
+.pub__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+
+.pub__venue { font-style: normal; }
+
+.pub__sep { color: var(--rule); }
+
+.pub__link {
+  color: var(--accent);
+  border-bottom: 1px solid transparent;
+}
+.pub__link:hover { border-bottom-color: var(--accent); }
+
+/* The expanding abstract. This uses the browser's own <details> element,
+   so it works with no JavaScript at all. It sits on its own line under the
+   venue and links. */
+.pub__abstract {
+  width: 100%;
+  margin-top: 0.15rem;
+}
+
+.pub__abstract summary {
+  display: inline-block;
+  list-style: none;
+  cursor: pointer;
+  color: var(--muted);
+  border-bottom: 1px dotted var(--rule);
+}
+.pub__abstract summary::-webkit-details-marker { display: none; }
+.pub__abstract summary:hover { color: var(--accent); border-bottom-color: var(--accent); }
+
+/* The little triangle, which flips when the abstract is open. It is drawn
+   with CSS borders rather than typed as a character, so it looks identical
+   in every font and on every platform. */
+.pub__abstract summary::after {
+  content: "";
+  display: inline-block;
+  margin-left: 0.45em;
+  vertical-align: 0.15em;
+  border-left: 3.5px solid transparent;
+  border-right: 3.5px solid transparent;
+  border-top: 4.5px solid currentColor;
+  transition: transform 0.15s ease;
+}
+.pub__abstract[open] summary::after { transform: rotate(180deg); }
+
+.pub__abstract-body {
+  margin-top: 0.85rem;
+  padding: 0.9rem 1.1rem;
+  background: var(--bg-soft);
+  border-left: 2px solid var(--accent);
+  border-radius: 0 4px 4px 0;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--text);
+}
+.pub__abstract-body p:last-child { margin-bottom: 0; }
+
+
+/* 5d. Teaching ------------------------------------------------------------ */
+
+.course {
+  padding: 0.85rem 0;
+  border-bottom: 1px solid var(--rule);
+}
+.course:last-child { border-bottom: none; }
+
+.course__title {
+  font-size: 1.02rem;
+  font-weight: 600;
+  line-height: 1.4;
+  margin: 0 0 0.25rem;
+}
+
+.course__meta {
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+
+.course__years {
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+
+/* 6. Flan page ------------------------------------------------------------ */
+
+.flan-intro { color: var(--muted); }
+
+.flan-map-toggle {
+  display: inline-block;
+  margin-bottom: 1.5rem;
+  background: none;
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  padding: 0.4rem 1.2rem;
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  color: var(--text);
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+.flan-map-toggle:hover { border-color: var(--accent); color: var(--accent); }
+
+/* The map slides open. It starts at zero height and is animated to 400px. */
+.flan-map-wrapper {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.45s ease, margin-bottom 0.45s ease;
+}
+.flan-map-wrapper.is-open {
+  max-height: 400px;
+  margin-bottom: 2rem;
+}
+
+.flan-map {
+  height: 350px;
+  border-radius: 6px;
+  border: 1px solid var(--rule);
+}
+
+.flan-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+.flan-card {
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  padding: 1.4rem;
+  background: var(--bg-soft);
+  display: flex;
+  flex-direction: column;
+}
+
+.flan-card__name {
+  font-size: 1.15rem;
+  margin: 0 0 0.5rem;
+}
+
+.flan-card__meta {
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  color: var(--muted);
+  margin: 0 0 0.2rem;
+}
+
+/* A fixed height with `object-fit: cover` keeps every card the same shape,
+   whether the photo was taken in portrait or landscape. */
+.flan-card__photo {
+  width: 100%;
+  height: 230px;
+  object-fit: cover;
+  border-radius: 5px;
+  margin: 1rem 0;
+}
+
+.flan-card__description {
+  font-size: 0.97rem;
+  flex: 1 1 auto;
+}
+
+.flan-card__scores {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.2rem;
+  margin-top: 0.6rem;
+  padding-top: 0.8rem;
+  border-top: 1px solid var(--rule);
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+.flan-card__scores b { color: var(--text); font-weight: 600; }
+
+/* The map tiles are a light image; dim them slightly in dark mode so they
+   don't glare against the dark page. */
+@media (prefers-color-scheme: dark) {
+  .flan-map .leaflet-tile-pane { filter: brightness(0.78) contrast(1.05); }
+}
+
+
+/* 7. Footer --------------------------------------------------------------- */
+
+.site-footer {
+  max-width: var(--measure);
+  margin: 3rem auto 0;
+  padding: 1.5rem;
+  border-top: 1px solid var(--rule);
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+.site-footer p { margin: 0; }
+.site-footer a { color: var(--muted); }
+.site-footer a:hover { color: var(--accent); }
+
+
+/* 8. Small screens -------------------------------------------------------- */
+
+@media (max-width: 640px) {
+
+  body { font-size: 1.02rem; }
+
+  .page { padding: 2.25rem 1.15rem 1rem; }
+
+  .site-nav {
+    padding: 0.7rem 1.15rem;
+    gap: 0.4rem 1rem;
+  }
+  .site-nav__links { gap: 0.9rem; font-size: 0.8rem; }
+
+  /* Photo above the name rather than beside it. */
+  .intro {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1.25rem;
+  }
+  .intro__photo { width: 125px; height: 125px; }
+  .intro__links { justify-content: center; }
+
+  .intro__name { font-size: 1.7rem; }
+
+  /* Date on its own line, above the news text. */
+  .news__item {
+    grid-template-columns: 1fr;
+    gap: 0.15rem;
+  }
+  .news__date { padding-top: 0; }
+
+  .flan-grid { grid-template-columns: 1fr; }
+}
+
+
+/* Respect the setting for people who find motion uncomfortable. */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

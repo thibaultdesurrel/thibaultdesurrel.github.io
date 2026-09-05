@@ -1,0 +1,118 @@
+---
+layout: default
+title: "Flans 🍮"
+permalink: /flan/
+description: "Une liste des flans pâtissiers que j'ai dégustés à Paris, avec notes, prix et carte."
+---
+
+{%- comment -%}
+  ===========================================================================
+  THE FLAN PAGE
+
+  You do not need to touch this file to add a flan — the flans themselves
+  live in _data/flans.yml. See README.md.
+  ===========================================================================
+{%- endcomment -%}
+
+<!-- Leaflet: the library that draws the map -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<script defer src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<section class="section">
+
+  <h2 class="section__title">Flans</h2>
+
+  <p class="flan-intro">Voici un aperçu des flans que j'ai dégustés.</p>
+
+  <button class="flan-map-toggle" id="map-toggle" type="button" aria-expanded="false" aria-controls="map-wrapper">
+    🗺️ Voir sur la carte
+  </button>
+
+  <div class="flan-map-wrapper" id="map-wrapper">
+    <div class="flan-map" id="flan-map"></div>
+  </div>
+
+  <div class="flan-grid">
+    {%- for flan in site.data.flans %}
+    <article class="flan-card">
+      <h3 class="flan-card__name">{{ flan.name }}</h3>
+
+      <p class="flan-card__meta">📍 {{ flan.address }}</p>
+      <p class="flan-card__meta">🗓️ {{ flan.date }}</p>
+
+      {%- if flan.photo %}
+      <img class="flan-card__photo" src="{{ flan.photo | relative_url }}"
+           alt="Le flan de {{ flan.name }}" loading="lazy">
+      {%- endif %}
+
+      <p class="flan-card__description">{{ flan.description }}</p>
+
+      <p class="flan-card__scores">
+        <span>Note&nbsp;: <b>{{ flan.rating }}/5</b></span>
+        {%- if flan.prix %}<span>Prix&nbsp;: <b>{{ flan.prix }}&nbsp;€</b></span>{% endif %}
+      </p>
+    </article>
+    {%- endfor %}
+  </div>
+
+</section>
+
+{%- comment -%}
+  The map is only built the first time the button is pressed — that keeps the
+  page fast for anyone who never opens it. `mapInitialised` makes sure it is
+  never built twice (building it twice is what broke the old version of this
+  page).
+{%- endcomment -%}
+<script>
+  (function () {
+    var toggle  = document.getElementById('map-toggle');
+    var wrapper = document.getElementById('map-wrapper');
+    var mapInitialised = false;
+
+    // The flan locations, written out from _data/flans.yml when the site is built.
+    var flans = [
+      {%- for flan in site.data.flans -%}
+        {%- if flan.lat and flan.lng %}
+      { name: {{ flan.name | jsonify }}, address: {{ flan.address | jsonify }}, rating: {{ flan.rating | jsonify }}, lat: {{ flan.lat }}, lng: {{ flan.lng }} },
+        {%- endif -%}
+      {%- endfor %}
+    ];
+
+    function buildMap() {
+      var map = L.map('flan-map');
+
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        maxZoom: 19
+      }).addTo(map);
+
+      var bounds = [];
+      flans.forEach(function (flan) {
+        L.marker([flan.lat, flan.lng])
+          .addTo(map)
+          .bindPopup('<strong>' + flan.name + '</strong><br>' + flan.address +
+                     '<br>Note : ' + flan.rating + '/5');
+        bounds.push([flan.lat, flan.lng]);
+      });
+
+      // The map is inside a container that has just been resized, so it needs
+      // to be told to re-measure itself once the opening animation is done.
+      setTimeout(function () {
+        map.invalidateSize();
+        if (bounds.length === 1)      { map.setView(bounds[0], 15); }
+        else if (bounds.length > 1)   { map.fitBounds(bounds, { padding: [40, 40] }); }
+      }, 300);
+    }
+
+    toggle.addEventListener('click', function () {
+      var isOpen = wrapper.classList.toggle('is-open');
+      toggle.setAttribute('aria-expanded', isOpen);
+      toggle.textContent = isOpen ? '✕ Fermer la carte' : '🗺️ Voir sur la carte';
+
+      if (isOpen && !mapInitialised && flans.length) {
+        mapInitialised = true;
+        buildMap();
+      }
+    });
+  })();
+</script>

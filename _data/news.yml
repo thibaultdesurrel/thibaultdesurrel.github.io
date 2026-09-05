@@ -1,0 +1,18 @@
+# =============================================================================
+#  News
+#
+#  Add a new item by copying the block below and putting it at the TOP of the
+#  list. Each item needs exactly two things: a date and some text.
+#
+#    - date: 2026-09-05                      # always YYYY-MM-DD
+#      text: "Something happened."           # one or two sentences
+#
+#  The text understands Markdown, so you can use:
+#     *italic*        **bold**        [a link](https://example.com)
+#
+#  Careful with the indentation: the dash goes at the very start of the line,
+#  and `text:` lines up underneath `date:` with two extra spaces.
+# =============================================================================
+
+- date: 2026-05-07
+  text: "Our paper *Riemannian adversarial attacks on Symmetric Positive Definite matrices*, with Dimitri Timoz and Florian Yger, was accepted at [ICASSP 2026](https://2026.ieeeicassp.org)."

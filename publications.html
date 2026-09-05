@@ -1,0 +1,22 @@
+---
+permalink: /publications/
+sitemap: false
+---
+{%- comment -%}
+  The old site had publications on their own page. Anyone following an old
+  link lands here and is sent straight to the publications section of the
+  homepage, so those links keep working.
+{%- endcomment -%}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="refresh" content="0; url={{ '/#publications' | absolute_url }}">
+  <link rel="canonical" href="{{ '/#publications' | absolute_url }}">
+  <meta name="robots" content="noindex">
+  <title>Redirecting…</title>
+</head>
+<body>
+  <p>Redirecting to <a href="{{ '/#publications' | absolute_url }}">the publications section</a>…</p>
+</body>
+</html>
