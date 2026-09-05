@@ -169,6 +169,13 @@ h1, h2, h3 {
 }
 .site-nav__links a:hover { color: var(--accent); }
 
+/* The section you are currently scrolled to. The class is put on by the small
+   script at the bottom of _layouts/default.html. */
+.site-nav__links a.is-current {
+  color: var(--text);
+  border-bottom-color: var(--accent);
+}
+
 
 /* 4. Page sections -------------------------------------------------------- */
 
@@ -183,6 +190,10 @@ h1, h2, h3 {
 /* Section headings: small caps in the sans face, with a hairline underneath.
    Deliberately quiet, so the content is what you notice. */
 .section__title {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
   font-family: var(--font-sans);
   font-size: 0.78rem;
   font-weight: 600;
@@ -192,6 +203,13 @@ h1, h2, h3 {
   padding-bottom: 0.55rem;
   margin-bottom: 1.75rem;
   border-bottom: 1px solid var(--rule);
+}
+
+/* The total, shown at the right-hand end of the Publications rule. */
+.section__count {
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  opacity: 0.75;
 }
 
 
@@ -273,23 +291,36 @@ h1, h2, h3 {
 
 .news__text p { margin: 0; }
 
-/* Hidden until the "show all" button is pressed — see the script on the
-   homepage. Without JavaScript, everything simply shows. */
-.news__item[hidden] { display: none; }
 
-.news__more {
-  margin-top: 1.1rem;
+/* 5b-bis. "Show all …" buttons ------------------------------------------- */
+/* Used by both the News and the Publications sections — see
+   _includes/show-more.html.
+
+   Items past the cut-off carry `data-extra`. They are hidden only once the
+   JavaScript has marked their container as collapsed, so with JavaScript
+   turned off the whole list is shown and no button appears. */
+
+.show-more-collapsed [data-extra] { display: none; }
+
+.show-more {
+  display: block;
+  margin: 1.4rem auto 0;
   background: none;
   border: 1px solid var(--rule);
   border-radius: 999px;
-  padding: 0.35rem 1.1rem;
+  padding: 0.4rem 1.2rem;
   font-family: var(--font-sans);
   font-size: 0.8rem;
   color: var(--muted);
   cursor: pointer;
   transition: border-color 0.15s ease, color 0.15s ease;
 }
-.news__more:hover { border-color: var(--accent); color: var(--accent); }
+.show-more:hover { border-color: var(--accent); color: var(--accent); }
+
+/* `display: block` above would otherwise beat the browser's own rule for the
+   `hidden` attribute, leaving the button on screen after it has been clicked —
+   and showing a button that does nothing to visitors without JavaScript. */
+.show-more[hidden] { display: none; }
 
 
 /* 5c. Publications -------------------------------------------------------- */

@@ -2,6 +2,8 @@
   Renders one publication.
 
   Expects `include.pub` — one file from the `_publications/` folder.
+  Optionally `include.extra` — true for papers past the homepage cut-off, which
+  marks them so the "Show all publications" button can reveal them.
 
   The abstract uses the browser's built-in <details> element: clicking
   "Abstract" expands it, with no JavaScript involved. The abstract must sit
@@ -10,7 +12,7 @@
 
 {%- assign abstract = include.pub.content | strip -%}
 
-<article class="pub">
+<article class="pub"{% if include.extra %} data-extra{% endif %}>
 
   <h3 class="pub__title">{{ include.pub.title }}</h3>
 

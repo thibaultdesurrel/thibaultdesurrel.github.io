@@ -52,6 +52,8 @@ Presentation:
   native `<details>` element; **no JavaScript**. Keep it that way.
 - `_includes/icons.html` — inline SVG contact icons, selected by `name`.
   Inline SVG is why the site ships no icon fonts.
+- `_includes/show-more.html` — the "Show all …" button shared by the News and
+  Publications sections. See *The show-more pattern* below.
 - `assets/css/style.scss` — the entire design, ~580 lines, in eight numbered
   sections. All colours are CSS custom properties defined once in section 1;
   dark mode redefines only those variables under
@@ -61,6 +63,33 @@ Pages: `index.html` (one long homepage with `#about`, `#news`, `#publications`,
 `#teaching` anchors), `flan.html`, `404.html`, and three meta-refresh redirect
 stubs (`publications.html`, `teaching.html`, `cv.html`) that keep old
 Academic Pages URLs working.
+
+## The show-more pattern
+
+The homepage caps News and Publications at `homepage.news_shown` /
+`homepage.publications_shown` (`_config.yml`) and reveals the rest with one
+button. Three details are load-bearing:
+
+- **Collapsing is done by a class, not the `hidden` attribute.** Items past the
+  cut-off are marked `data-extra` but are *not* hidden in the HTML;
+  `show-more.html` adds `show-more-collapsed` to the container and the
+  stylesheet hides `[data-extra]` inside it. This means no-JavaScript visitors
+  see everything with no button, and one CSS rule works for both sections
+  despite one being `grid` and the other `block`. Do not "simplify" this back
+  to `hidden` + a `<noscript>` override — that was the original approach and it
+  does not generalise.
+- **`.show-more[hidden] { display: none; }` is required.** Without it, the
+  `display: block` on `.show-more` beats the browser's own `[hidden]` rule and
+  the button stays on screen after being clicked.
+- **Year headings carry `data-extra` too**, when their year's first paper is
+  already past the cut-off, so no bare year is left hanging above nothing. A
+  year straddling the boundary keeps its heading.
+
+The nav scrollspy in `_layouts/default.html` uses a throttled `scroll`
+listener. Note that headless Chrome does not dispatch scroll events for
+programmatic scrolling, so this cannot be verified with screenshots or
+`--dump-dom`; verify the *computation* separately and check the live behaviour
+in a real browser.
 
 ## Conventions
 

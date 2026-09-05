@@ -65,6 +65,56 @@
   </footer>
 
   {%- comment -%}
+    Highlights the nav link for whichever section you have scrolled to, so a
+    long homepage stays easy to place yourself in.
+
+    It does nothing on pages that have none of these sections (the flan page),
+    and nothing in browsers without IntersectionObserver — in both cases the
+    nav simply behaves as it did before.
+  {%- endcomment -%}
+  <script>
+    (function () {
+      // Pair each nav link that points at "#something" with that section.
+      // On the flan page none of them match, so `pairs` is empty and we stop.
+      var pairs = [];
+      var links = document.querySelectorAll('.site-nav__links a[href*="#"]');
+      for (var i = 0; i < links.length; i++) {
+        var section = document.getElementById(links[i].href.split('#')[1]);
+        if (section) { pairs.push({ link: links[i], section: section }); }
+      }
+      if (!pairs.length) { return; }
+
+      // An imaginary line a third of the way down the window. Whichever
+      // section has most recently passed above it is the one you are reading.
+      function update() {
+        var line = window.scrollY + window.innerHeight * 0.33;
+        var current = null;
+        for (var i = 0; i < pairs.length; i++) {
+          var top = pairs[i].section.getBoundingClientRect().top + window.scrollY;
+          if (top <= line) { current = pairs[i]; }
+        }
+        for (var j = 0; j < pairs.length; j++) {
+          if (pairs[j] === current) { pairs[j].link.classList.add('is-current'); }
+          else { pairs[j].link.classList.remove('is-current'); }
+        }
+      }
+
+      // Scroll events arrive far faster than the screen redraws, so do the work
+      // at most once per frame.
+      var pending = false;
+      function onScroll() {
+        if (pending) { return; }
+        pending = true;
+        window.requestAnimationFrame(function () { pending = false; update(); });
+      }
+
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', onScroll);
+      update();
+    })();
+  </script>
+
+  {%- comment -%}
     Maths rendering. Only loaded on pages whose front matter says `math: true`
     (the homepage does, because a couple of abstracts contain formulas).
   {%- endcomment -%}

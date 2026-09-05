@@ -27,6 +27,7 @@ The important idea is that **content and design are separate**:
 | PDFs (papers, CV) | `files/` |
 | Photos | `images/` |
 | The design | `assets/css/style.scss` and `_layouts/default.html` |
+| How many news / papers the homepage shows | `_config.yml` (`homepage:`) |
 
 To add content you edit a file in the top half of that table. You never need
 to touch the bottom two rows.
@@ -126,6 +127,31 @@ Put the photo in **`images/flan/`**, then add a block to
 
   That caps the photo at 1400 pixels and typically brings it under 400 KB with
   no visible loss.
+
+### Control how much the homepage shows
+
+The homepage is one long page, so it would grow without limit as you add
+papers and news. To stop that, the News and Publications sections show only
+the most recent few and put the rest behind a **"Show all …"** button.
+
+How many are shown is set in **`_config.yml`**:
+
+```yaml
+homepage:
+  news_shown: 5
+  publications_shown: 10
+```
+
+With 8 publications nothing is hidden yet — the button only appears once you
+pass 10. Raise a number to show more at once, or set it very high (say `999`)
+if you would rather never hide anything.
+
+Two things worth knowing:
+
+- Nothing is ever unreachable. If a visitor has JavaScript turned off, the
+  whole list is shown and no button appears.
+- `_config.yml` is the one file that does not reload automatically when
+  previewing locally — restart `jekyll serve` after changing it.
 
 ### Update the CV
 

@@ -36,6 +36,16 @@ author:
   linkedin: "https://www.linkedin.com/in/thibault-de-surrel"
 
 
+# --- How much the homepage shows ---------------------------------------------
+# The homepage is one long page, so the News and Publications sections stop
+# after this many items and put the rest behind a "Show all …" button. Raise a
+# number to show more at once; set it very high to never hide anything.
+
+homepage:
+  news_shown: 5
+  publications_shown: 10
+
+
 # --- Collections -------------------------------------------------------------
 # A "collection" is a folder of content files. Each paper is one file in
 # `_publications/`. `output: false` means Jekyll does NOT build a separate web

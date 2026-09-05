@@ -1,0 +1,46 @@
+{%- comment -%}
+  A "Show all …" button for a list that has been cut short.
+
+  Parameters:
+    container — the id of the element holding the list items
+    total     — how many items there are altogether
+    noun      — what to call them, e.g. "publications" or "news items"
+
+  How the collapsing works, and why it is done this way:
+
+  The items beyond the cut-off are marked `data-extra` in the HTML but are NOT
+  hidden there. This script adds the class `show-more-collapsed` to the
+  container, and the stylesheet hides `[data-extra]` inside a collapsed
+  container. That means:
+
+    * with JavaScript — the list collapses immediately, because this script sits
+      inline right after the list and runs before the page is painted;
+    * without JavaScript — nothing is ever hidden and no button appears, so
+      every item is still reachable.
+
+  Hiding the items in the HTML instead (with the `hidden` attribute) would need
+  CSS to un-hide them for people without JavaScript, and that CSS would have to
+  know whether the items are laid out as blocks or as a grid. Collapsing with a
+  class avoids the problem entirely.
+{%- endcomment -%}
+
+<button class="show-more" type="button"
+        id="{{ include.container }}-more"
+        aria-controls="{{ include.container }}"
+        hidden>Show all {{ include.total }} {{ include.noun }}</button>
+
+<script>
+  (function () {
+    var list   = document.getElementById({{ include.container | jsonify }});
+    var button = document.getElementById({{ include.container | jsonify }} + '-more');
+    if (!list || !button) { return; }
+
+    list.classList.add('show-more-collapsed');
+    button.hidden = false;
+
+    button.addEventListener('click', function () {
+      list.classList.remove('show-more-collapsed');
+      button.hidden = true;
+    });
+  })();
+</script>
