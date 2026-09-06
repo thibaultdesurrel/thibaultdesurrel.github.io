@@ -22,3 +22,13 @@ Gemfile.lock
 
 # Claude Code
 .claude/
+
+# LaTeX build files, left behind when the CV is compiled locally.
+# The published PDF is files/cv.pdf; _cv/cv.pdf is only the build output.
+_cv/cv.pdf
+*.aux
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.synctex.gz

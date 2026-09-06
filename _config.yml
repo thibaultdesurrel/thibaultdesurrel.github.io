@@ -84,3 +84,4 @@ exclude:
   - vendor
   - .bundle
   - .claude
+  - scripts        # the CV generator; nothing the website needs to serve

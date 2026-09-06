@@ -15,8 +15,10 @@ the guiding constraint is that the owner has never built a website before, so
 **every file must stay small, commented, and obvious**. Prefer boring, explicit
 solutions over clever ones, and keep the total file count low.
 
-Deployed automatically by GitHub Pages from the `master` branch — there is no
-CI workflow and no build step.
+Deployed automatically by GitHub Pages from the `master` branch — the site
+itself has no build step. The one workflow in the repo
+(`.github/workflows/build-cv.yml`) does not build the site; it rebuilds the
+LaTeX CV. See *The CV pipeline* below.
 
 ## Development Commands
 
@@ -162,6 +164,55 @@ in a real browser.
   guarded by `mapInitialised`. The pre-rebuild version initialised it twice,
   which broke it — do not reintroduce that.
 
+## The CV pipeline
+
+`_publications/*.md` is the single source of truth for the paper list, and it
+feeds the CV as well as the homepage. The flow is strictly one-way:
+
+```
+_publications/*.md  →  _cv/publications.tex  →  _cv/cv.pdf  →  files/cv.pdf
+```
+
+- `scripts/build_cv_publications.py` reads the front matter and writes
+  `_cv/publications.tex`, which `_cv/cv.tex` pulls in with a single
+  `\input`. **Never hand-edit `publications.tex`** — CI overwrites it. To
+  change how an entry looks, edit `format_entry()` in the script; it is the
+  only function that emits markup.
+- `.github/workflows/build-cv.yml` runs the script, compiles with `pdflatex`
+  in a TeX Live container (`xu-cheng/latex-action`), copies the result to
+  `files/cv.pdf` and commits it back. Nothing needs LaTeX installed locally.
+- The parser is 15 hand-written lines rather than PyYAML, because the front
+  matter is flat `key: "value"` pairs and the script must run on a bare
+  runner with no `pip install` step. It splits on the **first** colon only —
+  titles contain colons of their own.
+
+Four details are load-bearing:
+
+- **`_cv/` starts with an underscore so Jekyll ignores it.** A plain `cv/`
+  would be copied into `_site/`, publishing the LaTeX source, and would write
+  into the same output directory as `cv.html`'s `/cv/` permalink. `scripts`
+  is in `_config.yml`'s `exclude:` for the same reason.
+- **The workflow's trigger `paths:` list only the hand-written inputs.** The
+  two generated files are deliberately absent, so the workflow's own commit
+  cannot re-trigger it. (GitHub also refuses to start workflows from
+  `GITHUB_TOKEN` pushes — two guards, both intentional.)
+- **The last step asks Pages to redeploy via the API.** That same
+  anti-recursion rule means a bot push does not start
+  `pages-build-deployment`, so without it the new PDF would sit correct in
+  `master` but unserved until the next human push.
+- **Month names are hard-coded in the script**, not `strftime("%b")`, which
+  is locale-dependent — the CV must read identically on a laptop and on the
+  runner.
+- **The compile pins `SOURCE_DATE_EPOCH` to the commit time** (and sets
+  `FORCE_SOURCE_DATE=1`, without which pdflatex ignores it). A PDF otherwise
+  embeds the wall-clock time it was built, so every rebuild would differ and
+  commit a new binary even when the CV is unchanged. Verified: two compiles
+  produce identical bytes with it, different bytes without.
+
+The optional `cv_venue:` front-matter key overrides `venue:` on the CV only
+(e.g. site "International Conference on Machine Learning (ICML)", CV "ICML
+2025"). The website ignores unknown keys, so adding it changes nothing there.
+
 ## Adding Content
 
 See `README.md` — it is written for the site owner and contains the canonical
@@ -170,8 +221,10 @@ it in sync with any structural change made here.
 
 ## Things to know
 
-- `files/cv.pdf` is referenced by the nav and `/cv/` redirect but **may not
-  exist yet** — the owner adds it separately.
+- `files/cv.pdf` is referenced by the nav and the `/cv/` redirect. It is a
+  **build output**, rebuilt from `_cv/cv.tex` by CI — do not edit or replace
+  it by hand. Its source is `_cv/cv.tex` (a RenderCV-generated `article`; it
+  uses no BibTeX).
 - `google0f0493d0b3718034.html` at the repo root is a Google Search Console
   verification file. Do not delete or move it.
 - `_data/flans.yml` carries `lat`/`lng` per entry; both the map loop and the

@@ -1,0 +1,88 @@
+# Rebuilds the CV whenever a publication changes.
+#
+# _publications/*.md  ->  _cv/publications.tex  ->  _cv/cv.pdf  ->  files/cv.pdf
+#
+# The website itself is still deployed by GitHub Pages straight from the
+# branch; this workflow only regenerates the PDF that /cv/ points at.
+name: Build CV
+
+on:
+  push:
+    branches: [master]
+    # Only the HAND-WRITTEN inputs are listed here.  The two files this
+    # workflow generates (_cv/publications.tex and files/cv.pdf) are
+    # deliberately absent, so the commit made at the end cannot re-trigger the
+    # workflow.  (GitHub also refuses to start workflows from pushes made with
+    # GITHUB_TOKEN, so this is the second of two guards against a loop.)
+    paths:
+      - '_publications/**'
+      - '_cv/cv.tex'
+      - 'scripts/build_cv_publications.py'
+      - '.github/workflows/build-cv.yml'
+  # Adds a "Run workflow" button on the Actions tab, to rebuild by hand.
+  workflow_dispatch:
+
+permissions:
+  contents: write   # to commit the rebuilt PDF back to the branch
+  pages: write      # to ask GitHub Pages to redeploy afterwards
+
+jobs:
+  build-cv:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Rewrites _cv/publications.tex from the publication files.
+      - name: Generate the publications section
+        run: python3 scripts/build_cv_publications.py
+
+      # A PDF normally embeds the wall-clock time it was made, which would
+      # make every rebuild look like a change and commit a new binary even
+      # when the CV is identical.  Pinning the date to the commit's own
+      # timestamp makes the build reproducible, so the check below can tell a
+      # real change from a re-run.
+      - name: Pin the PDF timestamp to the commit
+        run: echo "SOURCE_DATE_EPOCH=$(git log -1 --format=%ct)" >> "$GITHUB_ENV"
+
+      # A TeX Live container, so no LaTeX is installed on the runner.
+      # cv.tex takes its \ifPDFTeX branch, so plain pdflatex is correct and
+      # there is no bibliography pass to run.
+      - name: Compile the CV
+        uses: xu-cheng/latex-action@v3
+        with:
+          working_directory: _cv
+          root_file: cv.tex
+        env:
+          SOURCE_DATE_EPOCH: ${{ env.SOURCE_DATE_EPOCH }}
+          FORCE_SOURCE_DATE: 1   # pdflatex ignores SOURCE_DATE_EPOCH without this
+
+      - name: Publish the PDF
+        run: cp _cv/cv.pdf files/cv.pdf
+
+      # `git diff --quiet` keeps an unrelated push from creating an empty
+      # commit.  Only the two generated files are ever committed.
+      - name: Commit the rebuilt CV
+        id: commit
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add files/cv.pdf _cv/publications.tex
+          if git diff --cached --quiet; then
+            echo "The CV is already up to date; nothing to commit."
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            git commit -m "Rebuild the CV from the publication list"
+            git push
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      # A push made with GITHUB_TOKEN does not start the pages-build-deployment
+      # run, so without this the new PDF would sit correct in the branch but
+      # unserved until the next human push.  Asking for the build explicitly
+      # avoids that.
+      - name: Ask GitHub Pages to redeploy
+        if: steps.commit.outputs.changed == 'true'
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh api "repos/${{ github.repository }}/pages/builds" -X POST

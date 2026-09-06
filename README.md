@@ -80,6 +80,30 @@ link on the homepage, and appears when someone clicks it.
   automatically.
 - You can write maths in the abstract with `$…$`, e.g. `$\mathcal{P}_d$`.
 
+**Your CV updates itself.** Once you push the new file, GitHub rebuilds
+`files/cv.pdf` with the paper added and commits it for you — usually within
+two minutes. You do not need LaTeX installed, and you do not need to touch
+the CV at all. Two things follow from that:
+
+- **Never edit `_cv/publications.tex`.** It is regenerated from
+  `_publications/` every time, so any change you make there is thrown away.
+  Edit the `.md` file instead. Everything *else* in `_cv/cv.tex` — education,
+  internships, teaching — is yours to edit by hand as usual.
+- If the CV looks stale, open the repository's **Actions** tab on GitHub,
+  pick *Build CV*, and press **Run workflow** to rebuild it.
+
+If you want the CV to word a venue differently from the website — say the
+website has the full conference name but the CV should just say "ICML 2025" —
+add a `cv_venue:` line to the paper's file:
+
+```yaml
+venue: "International Conference on Machine Learning (ICML)"
+cv_venue: "ICML 2025"
+```
+
+The website ignores `cv_venue:`; only the CV uses it. It is optional, and most
+papers do not need it.
+
 ### Add a course
 
 Open **`_data/teaching.yml`** and add a block:
@@ -266,7 +290,14 @@ whole thing instead: `text: 'He said "hello"'`.
 ├── assets/
 │   ├── css/style.scss     the entire design
 │   └── favicon/           browser tab icons
-├── files/                 paper PDFs and cv.pdf
+├── _cv/
+│   ├── cv.tex             ← the CV, edited by hand
+│   └── publications.tex   GENERATED from _publications/ — never edit
+├── scripts/
+│   └── build_cv_publications.py   writes publications.tex
+├── .github/workflows/
+│   └── build-cv.yml       rebuilds files/cv.pdf when a paper is added
+├── files/                 paper PDFs, and cv.pdf (rebuilt for you)
 ├── images/                profile_pic.jpeg and flan/
 ├── 404.html
 └── publications.html, teaching.html, cv.html
