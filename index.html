@@ -142,16 +142,7 @@ math: true          # loads MathJax, because some abstracts contain formulas
 <section class="section section--panel" id="publications">
   <h2 class="section__title">
     Publications
-    <span class="section__title-end">
-      {%- comment -%}
-        Shuts every open abstract at once. It stays hidden until at least one
-        is actually open, so it never sits there doing nothing — and because
-        only JavaScript ever reveals it, it does not appear at all for someone
-        browsing without it.
-      {%- endcomment -%}
-      <button class="close-all" id="close-abstracts" type="button" hidden>Close all</button>
-      <span class="section__count">{{ publications.size }}</span>
-    </span>
+    <span class="section__count">{{ publications.size }}</span>
   </h2>
 
   <div id="publications-list">
@@ -185,35 +176,6 @@ math: true          # loads MathJax, because some abstracts contain formulas
     {% include show-more.html container="publications-list" total=publications.size noun="publications" %}
   {%- endif %}
 
-  <script>
-    (function () {
-      var button    = document.getElementById('close-abstracts');
-      var abstracts = document.querySelectorAll('#publications details.pub__abstract');
-      if (!button || !abstracts.length) { return; }
-
-      // Show the button whenever at least one abstract is open, hide it again
-      // when the last one closes. `toggle` fires on a <details> either way,
-      // including when the visitor closes one by hand.
-      function sync() {
-        var open = false;
-        for (var i = 0; i < abstracts.length; i++) {
-          if (abstracts[i].open) { open = true; break; }
-        }
-        button.hidden = !open;
-      }
-
-      for (var i = 0; i < abstracts.length; i++) {
-        abstracts[i].addEventListener('toggle', sync);
-      }
-
-      button.addEventListener('click', function () {
-        for (var i = 0; i < abstracts.length; i++) { abstracts[i].open = false; }
-        sync();
-      });
-
-      sync();
-    })();
-  </script>
 </section>
 {%- endif %}
 
