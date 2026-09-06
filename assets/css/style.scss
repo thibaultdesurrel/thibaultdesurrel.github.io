@@ -34,13 +34,20 @@
   --accent:      #1a4d7a;   /* links and highlights, a deep blue */
   --accent-soft: #e8eff5;   /* faint accent wash */
   --rule:        #e3ded5;   /* hairlines and borders */
+  --scrollbar:   #b9b2a6;   /* the News scrollbar; darker than --rule so it is
+                               actually noticeable against the background */
 
   --font-serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia,
                 "Times New Roman", serif;
   --font-sans:  -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
                 Helvetica, Arial, sans-serif;
 
-  --measure: 46rem;   /* how wide the text column is allowed to get */
+  --measure: 55rem;   /* how wide the text column is allowed to get */
+
+  /* How tall the News box grows before it starts scrolling inside itself.
+     35vh is 35% of the window height, so it adapts to the visitor's screen.
+     Raise it to show more news at once. */
+  --news-height: 35vh;
 }
 
 /* Dark theme. This block is used automatically when the visitor's computer
@@ -55,6 +62,7 @@
     --accent:      #85b4de;
     --accent-soft: #1f2a35;
     --rule:        #2c2e33;
+    --scrollbar:   #4d5158;
   }
 
   /* Photographs look harsh at full brightness on a dark page. */
@@ -268,6 +276,53 @@ h1, h2, h3 {
 
 
 /* 5b. News ---------------------------------------------------------------- */
+
+/* The news list scrolls inside this box instead of lengthening the page.
+
+   Because it is a *max*-height, a short list simply renders at its natural
+   height with no scrollbar — the box only appears once there is enough news to
+   need it. No JavaScript is involved. */
+.news-scroll {
+  max-height: var(--news-height);
+  overflow-y: auto;
+  padding-right: 0.6rem;   /* a little air between the text and the scrollbar */
+}
+
+/* Show the scrollbar permanently rather than letting macOS fade it out —
+   otherwise the box looks like a complete, short list.
+
+   The `@supports not` guard matters and is not tidiness: in current Chrome,
+   setting `scrollbar-width` makes the browser IGNORE the ::-webkit-scrollbar
+   rules below and fall back to the overlay scrollbar that fades away. So the
+   standard properties are given only to browsers that do not understand
+   ::-webkit-scrollbar — in practice Firefox — and Chrome and Safari are left to
+   the WebKit rules, which do produce a scrollbar that always shows.
+
+   Measured: with either standard property set, the scrollbar takes 0px of
+   width (overlay, fades out); with the WebKit rules alone, 8px (always shown).
+
+   The #{"…"} is not a typo. GitHub Pages compiles this file with an old Sass
+   version that cannot parse `selector(…)` and fails the build; wrapping it in
+   interpolation passes it through to the CSS untouched. */
+@supports not #{"selector(::-webkit-scrollbar)"} {
+  .news-scroll {
+    scrollbar-width: thin;                          /* Firefox */
+    scrollbar-color: var(--scrollbar) transparent;  /* Firefox: thumb, track */
+  }
+}
+.news-scroll::-webkit-scrollbar { width: 7px; }
+.news-scroll::-webkit-scrollbar-track { background: transparent; }
+.news-scroll::-webkit-scrollbar-thumb {
+  background: var(--scrollbar);
+  border-radius: 999px;
+}
+.news-scroll::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+
+/* Printing ignores the box: otherwise the printed page would silently show
+   only the first boxful of news. */
+@media print {
+  .news-scroll { max-height: none; overflow: visible; padding-right: 0; }
+}
 
 .news { list-style: none; margin: 0; padding: 0; }
 

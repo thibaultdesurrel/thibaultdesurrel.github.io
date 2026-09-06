@@ -37,13 +37,15 @@ author:
 
 
 # --- How much the homepage shows ---------------------------------------------
-# The homepage is one long page, so the News and Publications sections stop
-# after this many items and put the rest behind a "Show all …" button. Raise a
-# number to show more at once; set it very high to never hide anything.
+# The homepage is one long page, so the Publications section stops after this
+# many papers and puts the rest behind a "Show all …" button. Raise it to show
+# more at once, or set it very high to never hide anything.
+#
+# News is not listed here: it scrolls inside its own box instead, and how tall
+# that box gets is set by `--news-height` at the top of assets/css/style.scss.
 
 homepage:
-  news_shown: 5
-  publications_shown: 10
+  publications_shown: 5
 
 
 # --- Collections -------------------------------------------------------------

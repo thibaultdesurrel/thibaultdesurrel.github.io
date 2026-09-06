@@ -27,7 +27,8 @@ The important idea is that **content and design are separate**:
 | PDFs (papers, CV) | `files/` |
 | Photos | `images/` |
 | The design | `assets/css/style.scss` and `_layouts/default.html` |
-| How many news / papers the homepage shows | `_config.yml` (`homepage:`) |
+| How many papers the homepage shows | `_config.yml` (`homepage:`) |
+| How tall the News box is | `assets/css/style.scss` (`--news-height`) |
 
 To add content you edit a file in the top half of that table. You never need
 to touch the bottom two rows.
@@ -131,27 +132,40 @@ Put the photo in **`images/flan/`**, then add a block to
 ### Control how much the homepage shows
 
 The homepage is one long page, so it would grow without limit as you add
-papers and news. To stop that, the News and Publications sections show only
-the most recent few and put the rest behind a **"Show all …"** button.
+papers and news. The two sections handle that differently, because they hold
+different kinds of thing.
 
-How many are shown is set in **`_config.yml`**:
+**News scrolls inside its own box.** Every item is there; once there are more
+than fit, the box gets a scrollbar instead of the page getting longer. Adding
+news never lengthens the page again. How tall the box grows is set near the
+top of **`assets/css/style.scss`**:
+
+```scss
+--news-height: 35vh;   /* 35% of the window height */
+```
+
+Raise it to show more news at once. With only a few items the box is simply
+the height of its contents and no scrollbar appears at all.
+
+**Publications stop after a set number**, with the rest behind a
+**"Show all …"** button, because each one can expand to show its abstract and
+that wants the whole page to open into. Set in **`_config.yml`**:
 
 ```yaml
 homepage:
-  news_shown: 5
-  publications_shown: 10
+  publications_shown: 5
 ```
 
-With 8 publications nothing is hidden yet — the button only appears once you
-pass 10. Raise a number to show more at once, or set it very high (say `999`)
-if you would rather never hide anything.
+Set it very high (say `999`) if you would rather never hide any.
 
 Two things worth knowing:
 
 - Nothing is ever unreachable. If a visitor has JavaScript turned off, the
-  whole list is shown and no button appears.
+  full publication list is shown and no button appears. Printing the page also
+  prints all the news, not just one boxful.
 - `_config.yml` is the one file that does not reload automatically when
-  previewing locally — restart `jekyll serve` after changing it.
+  previewing locally — restart `jekyll serve` after changing it. The
+  stylesheet does reload on its own.
 
 ### Update the CV
 

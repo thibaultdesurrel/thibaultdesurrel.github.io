@@ -64,20 +64,53 @@ Pages: `index.html` (one long homepage with `#about`, `#news`, `#publications`,
 stubs (`publications.html`, `teaching.html`, `cv.html`) that keep old
 Academic Pages URLs working.
 
-## The show-more pattern
+## Keeping the homepage short
 
-The homepage caps News and Publications at `homepage.news_shown` /
-`homepage.publications_shown` (`_config.yml`) and reveals the rest with one
-button. Three details are load-bearing:
+The two long sections use **deliberately different mechanisms**. This asymmetry
+is a decision, not an oversight — do not "tidy" it by making them match.
+
+- **News** scrolls inside `.news-scroll` (`max-height: var(--news-height)` +
+  `overflow-y: auto`). Pure CSS, no JavaScript, no cap in the Liquid. Items are
+  one line each with nothing to expand, so a scroll box suits them, and the
+  page stops growing entirely: measured identical page height at 20 and at 60
+  news items.
+- **Publications** keep the "Show all" button. They must not go in a scroll box:
+  each carries an expandable abstract, and opening one inside a fixed-height box
+  means reading a long paragraph through a small window while the box jumps.
+
+### The News scrollbar
+
+`.news-scroll` must show its scrollbar permanently, or the box reads as a
+complete short list. Two traps, both verified by measurement:
+
+- **Setting `scrollbar-width` or `scrollbar-color` makes Chrome ignore the
+  `::-webkit-scrollbar` rules** and fall back to the overlay scrollbar that
+  fades out. Measured gutter: 0px with either standard property present, 7–8px
+  with the WebKit rules alone. Hence the `@supports not selector(...)` guard,
+  which hands the standard properties only to Firefox.
+- **That guard is written `@supports not #{"selector(...)"}`** because GitHub
+  Pages compiles with libsass, which cannot parse `selector()` and fails the
+  build. The interpolation passes it through untouched.
+
+`--scrollbar` is a separate colour token because `--rule` is far too faint
+against the page background (measured ≈1.2:1 contrast — invisible).
+
+The `@media print` rule that drops the `max-height` is also load-bearing:
+without it a printed page silently shows one boxful. Measured 7 pages with it,
+4 without, at 60 news items.
+
+## The show-more pattern (Publications)
+
+Publications stop after `homepage.publications_shown` (`_config.yml`) and reveal
+the rest with one button. Three details are load-bearing:
 
 - **Collapsing is done by a class, not the `hidden` attribute.** Items past the
   cut-off are marked `data-extra` but are *not* hidden in the HTML;
   `show-more.html` adds `show-more-collapsed` to the container and the
   stylesheet hides `[data-extra]` inside it. This means no-JavaScript visitors
-  see everything with no button, and one CSS rule works for both sections
-  despite one being `grid` and the other `block`. Do not "simplify" this back
-  to `hidden` + a `<noscript>` override — that was the original approach and it
-  does not generalise.
+  see everything with no button. Do not "simplify" this back to `hidden` + a
+  `<noscript>` override — that was the original approach, and it hard-codes the
+  `display` value it has to restore.
 - **`.show-more[hidden] { display: none; }` is required.** Without it, the
   `display: block` on `.show-more` beats the browser's own `[hidden]` rule and
   the button stays on screen after being clicked.
