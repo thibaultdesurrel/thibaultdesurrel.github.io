@@ -117,7 +117,7 @@ math: true          # loads MathJax, because some abstracts contain formulas
 {%- endcomment -%}
 {%- assign news = site.data.news | sort: "date" | reverse -%}
 {%- if news.size > 0 %}
-<section class="section" id="news">
+<section class="section section--panel" id="news">
   <h2 class="section__title">News</h2>
 
   <div class="news-scroll" tabindex="0" role="region" aria-label="News">
@@ -139,7 +139,7 @@ math: true          # loads MathJax, because some abstracts contain formulas
 {%- assign publications = site.publications | sort: "date" | reverse -%}
 {%- assign pub_limit = site.homepage.publications_shown -%}
 {%- if publications.size > 0 %}
-<section class="section" id="publications">
+<section class="section section--panel" id="publications">
   <h2 class="section__title">
     Publications
     <span class="section__count">{{ publications.size }}</span>
@@ -182,7 +182,7 @@ math: true          # loads MathJax, because some abstracts contain formulas
 <!-- ---------- Teaching (from _data/teaching.yml) ---------- -->
 
 {%- if site.data.teaching.size > 0 %}
-<section class="section" id="teaching">
+<section class="section section--panel" id="teaching">
   <h2 class="section__title">Teaching</h2>
 
   {%- for course in site.data.teaching %}

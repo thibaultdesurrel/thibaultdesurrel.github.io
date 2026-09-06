@@ -28,7 +28,8 @@
 :root {
   /* Light theme (the default) */
   --bg:          #fdfcfa;   /* page background, a warm off-white */
-  --bg-soft:     #f6f4f0;   /* slightly darker: cards, hovered rows */
+  --bg-soft:     #f3f0e9;   /* section panels and flan cards, a touch darker
+                               than the page so the panels read as panels */
   --text:        #1c1c1c;   /* body text */
   --muted:       #6b6862;   /* dates, venues, secondary detail */
   --accent:      #1a4d7a;   /* links and highlights, a deep blue */
@@ -56,7 +57,7 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --bg:          #16171a;
-    --bg-soft:     #1e2024;
+    --bg-soft:     #22252b;
     --text:        #e6e4e0;
     --muted:       #9b9791;
     --accent:      #85b4de;
@@ -193,7 +194,34 @@ h1, h2, h3 {
   padding: 3.5rem 1.5rem 1rem;
 }
 
-.section { margin-bottom: 3.75rem; }
+.section { margin-bottom: 2rem; }
+
+/* News, Publications and Teaching each sit in their own panel, so they read as
+   separate things rather than one continuous wall of text. Same background,
+   border and radius as the cards on the flan page, so the two pages match.
+
+   The About block at the top deliberately does NOT get this — it is the page's
+   introduction, not one section among several. */
+.section--panel {
+  background: var(--bg-soft);
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  padding: 1.6rem 1.9rem;
+  margin-bottom: 1.75rem;
+}
+.section--panel:last-child { margin-bottom: 0; }
+
+/* Printers usually drop background colours, which would leave nothing but a
+   heavy outline. Print the panels as plain text with a light divider instead. */
+@media print {
+  .section--panel {
+    background: none;
+    border: 0;
+    border-top: 1px solid #ccc;
+    border-radius: 0;
+    padding: 1rem 0 0;
+  }
+}
 
 /* Section headings: small caps in the sans face, with a hairline underneath.
    Deliberately quiet, so the content is what you notice. */
@@ -272,6 +300,12 @@ h1, h2, h3 {
 .intro__links a:hover { color: var(--accent); }
 .intro__links svg { width: 15px; height: 15px; flex: none; }
 
+/* The page is 55rem wide, which suits the publication rows and the news date
+   column but is too wide for running prose — it works out at about 110
+   characters a line. Capping the bio alone brings it into the comfortable
+   range, without narrowing anything else. (Measured characters per line:
+   full width 105, 42rem 85, 38rem 73.) */
+.bio { max-width: 38rem; }
 .bio p:last-child { margin-bottom: 0; }
 
 
@@ -465,10 +499,14 @@ h1, h2, h3 {
 }
 .pub__abstract[open] summary::after { transform: rotate(180deg); }
 
+/* The abstract is lifted off its surroundings by using the *page* background,
+   not --bg-soft: the panel around it is already --bg-soft, so --bg-soft here
+   would make it disappear. It reads lighter than its container rather than
+   darker, which works in both themes. */
 .pub__abstract-body {
   margin-top: 0.85rem;
   padding: 0.9rem 1.1rem;
-  background: var(--bg-soft);
+  background: var(--bg);
   border-left: 2px solid var(--accent);
   border-radius: 0 4px 4px 0;
   font-size: 0.95rem;
@@ -627,6 +665,9 @@ h1, h2, h3 {
   body { font-size: 1.02rem; }
 
   .page { padding: 2.25rem 1.15rem 1rem; }
+
+  /* Less padding, or the panel eats most of a phone's width. */
+  .section--panel { padding: 1.15rem 1.1rem; }
 
   .site-nav {
     padding: 0.7rem 1.15rem;

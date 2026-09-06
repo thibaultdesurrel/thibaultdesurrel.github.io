@@ -64,6 +64,22 @@ Pages: `index.html` (one long homepage with `#about`, `#news`, `#publications`,
 stubs (`publications.html`, `teaching.html`, `cv.html`) that keep old
 Academic Pages URLs working.
 
+## Homepage layout
+
+News, Publications and Teaching each carry `section--panel`: `--bg-soft`
+background, hairline border, 8px radius — deliberately the same treatment as
+`.flan-card`, so both pages match. Two exceptions are intentional:
+
+- **`#about` is not panelled.** It is the page's introduction, not one section
+  among several. Do not add the class "for consistency".
+- **`.pub__abstract-body` uses `--bg`, not `--bg-soft`.** Its container is now
+  `--bg-soft`, so `--bg-soft` there would make the abstract invisible. It reads
+  as a *lighter* block inside the panel, which works in both themes.
+
+`.bio` is capped at `38rem` while the page is `55rem`. The wide column suits the
+publication rows and the news date column, but not running prose — measured
+characters per line: 105 at full width, 85 at 42rem, 73 at 38rem.
+
 ## Keeping the homepage short
 
 The two long sections use **deliberately different mechanisms**. This asymmetry
