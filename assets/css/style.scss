@@ -43,7 +43,11 @@
   --font-sans:  -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
                 Helvetica, Arial, sans-serif;
 
-  --measure: 55rem;   /* how wide the text column is allowed to get */
+  --measure: 55rem;   /* how wide the page is allowed to get */
+
+  /* How wide the introduction at the top of the homepage gets. It is narrower
+     than the rest on purpose — see `.section--intro` below. */
+  --intro-width: 38rem;
 
   /* How tall the News box grows before it starts scrolling inside itself.
      35vh is 35% of the window height, so it adapts to the visitor's screen.
@@ -211,6 +215,20 @@ h1, h2, h3 {
 }
 .section--panel:last-child { margin-bottom: 0; }
 
+/* The introduction is narrower than everything below it, on purpose.
+
+   The page is 55rem, which suits the publication rows and the news date column
+   but is far too wide for running prose: measured characters per line are 105
+   at full width against a comfortable 65–90. Narrowing the bio alone fixed the
+   reading but left it as the only element on the page stopping short, which
+   read as a mistake. Narrowing the whole introduction — photo, name, links and
+   bio together — makes it one deliberate column instead.
+
+   It cannot go much below this: the row of contact links needs 366px and will
+   not break, which with the photo and its gap puts the floor at about 543px
+   (34rem). */
+.section--intro { max-width: var(--intro-width); }
+
 /* Printers usually drop background colours, which would leave nothing but a
    heavy outline. Print the panels as plain text with a light divider instead. */
 @media print {
@@ -302,12 +320,6 @@ h1, h2, h3 {
 .intro__links a:hover { color: var(--accent); }
 .intro__links svg { width: 15px; height: 15px; flex: none; }
 
-/* The page is 55rem wide, which suits the publication rows and the news date
-   column but is too wide for running prose — it works out at about 110
-   characters a line. Capping the bio alone brings it into the comfortable
-   range, without narrowing anything else. (Measured characters per line:
-   full width 105, 42rem 85, 38rem 73.) */
-.bio { max-width: 38rem; }
 .bio p:last-child { margin-bottom: 0; }
 
 

@@ -78,9 +78,19 @@ background, hairline border, 8px radius — deliberately the same treatment as
   `--bg-soft`, so `--bg-soft` there would make the abstract invisible. It reads
   as a *lighter* block inside the panel, which works in both themes.
 
-`.bio` is capped at `38rem` while the page is `55rem`. The wide column suits the
-publication rows and the news date column, but not running prose — measured
+**`#about` carries `section--intro`, capping the whole introduction at
+`--intro-width` (38rem) while the page is 55rem.** The wide column suits the
+publication rows and the news date column but not running prose — measured
 characters per line: 105 at full width, 85 at 42rem, 73 at 38rem.
+
+Note that the cap belongs on the *whole* introduction, not on `.bio` alone.
+Narrowing only the bio (the first attempt) left it as the single element on the
+page stopping short of everything else, including the intro text directly above
+it, which read as a bug rather than a choice. Photo, name, links and bio now
+share one right edge.
+
+`--intro-width` cannot go far below 38rem: the contact-links row measures 366px
+and will not wrap, which with the photo and its gap puts the floor near 34rem.
 
 ## Keeping the homepage short
 
