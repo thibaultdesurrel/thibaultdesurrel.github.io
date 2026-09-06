@@ -134,9 +134,18 @@ the rest with one button. Three details are load-bearing:
   see everything with no button. Do not "simplify" this back to `hidden` + a
   `<noscript>` override — that was the original approach, and it hard-codes the
   `display` value it has to restore.
-- **`.show-more[hidden] { display: none; }` is required.** Without it, the
-  `display: block` on `.show-more` beats the browser's own `[hidden]` rule and
-  the button stays on screen after being clicked.
+- **The button toggles both ways.** It reads "Show all N publications" when
+  collapsed and "Show fewer publications" when expanded, and it stays on screen
+  in both states — it is never hidden after the first click.
+- **Collapsing corrects the scroll position.** Collapsing removes items from
+  *above* the button, so the script measures the button's viewport position
+  before and after and calls `scrollBy` with the difference. Without that the
+  page lurches and strands the reader further down. Expanding deliberately does
+  *not* correct, so the newly revealed items appear in view.
+- **`.show-more[hidden] { display: none; }` is still required.** The button
+  ships with `hidden` and only JavaScript reveals it, and the author
+  `display: block` on `.show-more` would otherwise beat the browser's own
+  `[hidden]` rule and show a dead button to visitors without JavaScript.
 - **Year headings carry `data-extra` too**, when their year's first paper is
   already past the cut-off, so no bare year is left hanging above nothing. A
   year straddling the boundary keeps its heading.

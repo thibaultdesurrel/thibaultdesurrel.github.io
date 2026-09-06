@@ -149,7 +149,9 @@ the height of its contents and no scrollbar appears at all.
 
 **Publications stop after a set number**, with the rest behind a
 **"Show all …"** button, because each one can expand to show its abstract and
-that wants the whole page to open into. Set in **`_config.yml`**:
+that wants the whole page to open into. The button works both ways: once the
+full list is showing it turns into **"Show fewer publications"**, which folds it
+back down again. How many are shown before folding is set in **`_config.yml`**:
 
 ```yaml
 homepage:
