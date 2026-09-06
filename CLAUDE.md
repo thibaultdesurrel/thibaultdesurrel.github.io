@@ -76,6 +76,13 @@ background, hairline border, 8px radius — deliberately the same treatment as
   `--bg-soft`, so `--bg-soft` there would make the abstract invisible. It reads
   as a *lighter* block inside the panel, which works in both themes.
 
+The Publications rule carries a **"Close all"** button that shuts every open
+abstract. It ships with the `hidden` attribute and only JavaScript ever reveals
+it, so it appears exactly when at least one abstract is open and never at all
+without JavaScript. Its `text-transform` and `letter-spacing` are repeated
+rather than inherited — a `<button>` does not pick those up from its parent,
+and `font: inherit` does not carry them.
+
 `.bio` is capped at `38rem` while the page is `55rem`. The wide column suits the
 publication rows and the news date column, but not running prose — measured
 characters per line: 105 at full width, 85 at 42rem, 73 at 38rem.

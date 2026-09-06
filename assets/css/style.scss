@@ -229,7 +229,8 @@ h1, h2, h3 {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
-  gap: 1rem;
+  flex-wrap: wrap;   /* so the title and its buttons never squash each other */
+  gap: 0.4rem 1rem;
   font-family: var(--font-sans);
   font-size: 0.78rem;
   font-weight: 600;
@@ -241,12 +242,44 @@ h1, h2, h3 {
   border-bottom: 1px solid var(--rule);
 }
 
+/* The right-hand end of a section rule: the "Close all" button, then the total. */
+.section__title-end {
+  display: flex;
+  align-items: baseline;
+  gap: 1.1rem;
+}
+
 /* The total, shown at the right-hand end of the Publications rule. */
 .section__count {
   font-weight: 400;
   letter-spacing: 0.06em;
   opacity: 0.75;
 }
+
+/* "Close all" — shuts every open abstract. It is styled to match the small
+   uppercase lettering of the section title so it reads as part of the rule
+   rather than as a control bolted on. `text-transform` and `letter-spacing`
+   have to be repeated: a <button> does not pick them up from its parent the
+   way ordinary text does, and `font: inherit` does not carry them either. */
+.close-all {
+  background: none;
+  border: 0;
+  border-bottom: 1px dotted var(--rule);
+  padding: 0;
+  font: inherit;
+  text-transform: uppercase;
+  letter-spacing: 0.13em;
+  color: var(--muted);
+  cursor: pointer;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+.close-all:hover { color: var(--accent); border-bottom-color: var(--accent); }
+
+/* Nothing above sets `display`, so the browser's own rule for the `hidden`
+   attribute already works. This keeps it working if anyone later adds one:
+   an author `display` beats the browser's `[hidden]`, which is exactly how
+   `.show-more` came to sit on screen after being clicked. */
+.close-all[hidden] { display: none; }
 
 
 /* 5a. Homepage intro ------------------------------------------------------ */
