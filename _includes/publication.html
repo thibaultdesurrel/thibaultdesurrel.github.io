@@ -18,6 +18,15 @@
 
   <p class="pub__authors">{{ include.pub.authors | markdownify | remove: '<p>' | remove: '</p>' }}</p>
 
+  {%- comment -%}
+    Optional `authors_note:` — explains a marker used in the author list, e.g.
+    "* Equal contribution". Plain text, deliberately not markdownified: the
+    note is usually a bare "*", which markdown would try to read as emphasis.
+  {%- endcomment -%}
+  {%- if include.pub.authors_note %}
+    <p class="pub__authors-note">{{ include.pub.authors_note }}</p>
+  {%- endif %}
+
   <div class="pub__meta">
     <span class="pub__venue">{{ include.pub.venue }}</span>
 

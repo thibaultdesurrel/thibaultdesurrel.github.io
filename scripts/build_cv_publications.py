@@ -29,6 +29,10 @@ OUTPUT_FILE = ROOT / "_cv" / "publications.tex"
 # HAL link.  Must match `url` in _config.yml.
 SITE_URL = "https://thibaultdesurrel.github.io"
 
+# Written after a name in `authors:` to mark a co-first author.  It is HTML
+# because a bare "*" would be markdown emphasis on the website.
+MARKER = "<sup>*</sup>"
+
 # Hard-coded rather than strftime("%b"), which changes with the machine's
 # locale — the CV must read the same on a laptop and on the CI runner.
 MONTHS = ("Jan.", "Feb.", "Mar.", "Apr.", "May", "Jun.",
@@ -89,6 +93,10 @@ def format_authors(authors):
     Each name is wrapped in \\mbox{} so LaTeX never breaks a line in the middle
     of one, and the **bolded** name (Thibault's own) becomes bold italic, which
     is how every entry in the hand-written CV set it.
+
+    A name ending in `<sup>*</sup>` is a co-first author.  The website needs
+    the tag (a bare `*` would be read as markdown emphasis); the CV drops it
+    and raises the star itself.  `authors_note:` explains the marker.
     """
     # " and " separates the last two names; commas separate the rest.
     names = []
@@ -99,11 +107,17 @@ def format_authors(authors):
 
     formatted = []
     for name in names:
+        # Strip the equal-contribution marker first, so the `**bold**` test
+        # below still sees a name that ends in `**`.
+        marker = ""
+        if name.endswith(MARKER):
+            name = name[: -len(MARKER)].rstrip()
+            marker = r"$^{*}$"
         if name.startswith("**") and name.endswith("**"):
             inner = escape_latex(name[2:-2])
-            formatted.append(r"\mbox{\textbf{\textit{%s}}}" % inner)
+            formatted.append(r"\mbox{\textbf{\textit{%s}}%s}" % (inner, marker))
         else:
-            formatted.append(r"\mbox{%s}" % escape_latex(name))
+            formatted.append(r"\mbox{%s%s}" % (escape_latex(name), marker))
 
     if len(formatted) == 1:
         return formatted[0]
@@ -147,6 +161,12 @@ def format_entry(fields):
     # corrupt them.
     heading = r"\textbf{\href{%s}{%s}}" % (link, title) if link else r"\textbf{%s}" % title
 
+    # `authors_note:` is optional — the footnote for the star markers, printed
+    # in italics right after the last name rather than on a line of its own.
+    authors = format_authors(fields["authors"])
+    if fields.get("authors_note"):
+        authors += r" \textit{(%s)}" % escape_latex(fields["authors_note"])
+
     return "\n".join([
         r"\begin{samepage}",
         r"    \begin{twocolentry}{",
@@ -158,7 +178,7 @@ def format_entry(fields):
         r"    \vspace{0.10 cm}",
         r"",
         r"    \begin{onecolentry}",
-        r"        %s" % format_authors(fields["authors"]),
+        r"        %s" % authors,
         r"",
         r"        \vspace{0.10 cm}",
         r"",

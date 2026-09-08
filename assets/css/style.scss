@@ -456,6 +456,14 @@ h1, h2, h3 {
    it stands out from the co-authors. */
 .pub__authors strong { color: var(--text); font-weight: 600; }
 
+/* Footnote under the author list ("* Equal contribution"). Smaller than the
+   names it explains, and pulled up so it reads as part of the same block. */
+.pub__authors-note {
+  font-size: 0.82rem;
+  color: var(--muted);
+  margin: -0.15rem 0 0.3rem;
+}
+
 .pub__meta {
   display: flex;
   flex-wrap: wrap;

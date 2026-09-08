@@ -79,6 +79,17 @@ link on the homepage, and appears when someone clicks it.
 - Papers are sorted by `date`, newest first, and grouped by year
   automatically.
 - You can write maths in the abstract with `$…$`, e.g. `$\mathcal{P}_d$`.
+- **Equal contribution:** write `<sup>*</sup>` after each name that shares
+  first authorship, and add an `authors_note:` line explaining the star:
+
+  ```yaml
+  authors: "Someone Else<sup>*</sup>, **Thibault de Surrel**<sup>*</sup> and Another Person"
+  authors_note: "* Equal contribution"
+  ```
+
+  Both lines are optional and both feed the CV as well as the website. Use the
+  `<sup>` tag rather than a plain `*` — a bare asterisk is markdown's
+  *italic* marker and would italicise the rest of the author list.
 
 **Your CV updates itself.** Once you push the new file, GitHub rebuilds
 `files/cv.pdf` with the paper added and commits it for you — usually within
