@@ -14,5 +14,12 @@
 #  and `text:` lines up underneath `date:` with two extra spaces.
 # =============================================================================
 
+
+- date: 2026-09-08
+  text: "On September 17th, [Valérie Marissens Cueva](https://vmarissenscueva.github.io) and I will be presenting a poster at the [Graz BCI Conference](https://www.tugraz.at/institute/ine/graz-bci-conferences/10th-graz-bci-conference-2026) on our work *Wrapped One-Class Riemannain EEG classifier for BCI-detection of anesthetic states*."
+
+- date: 2026-09-07
+  text: "Welcome on the new version of my website!"
+
 - date: 2026-05-07
   text: "Our paper *Riemannian adversarial attacks on Symmetric Positive Definite matrices*, with Dimitri Timoz and Florian Yger, was accepted at [ICASSP 2026](https://2026.ieeeicassp.org)."
