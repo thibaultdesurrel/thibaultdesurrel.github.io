@@ -1,31 +1,132 @@
----
-layout: compress
----
-
-{% include base_path %}
-
 <!doctype html>
-<html lang="{{ site.locale | slice: 0,2 }}" class="no-js">
-  <head>
-    {% include head.html %}
-    {% include head/custom.html %}
-  </head>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <body>
+  {%- comment -%}
+    The browser tab title: "Page name · Thibault de Surrel" on inner pages,
+    just the site title on the homepage.
+  {%- endcomment -%}
+  <title>{% if page.title and page.url != "/" %}{{ page.title }} · {% endif %}{{ site.title }}</title>
 
-    {% include browser-upgrade.html %}
-    {% include masthead.html %}
+  <meta name="description" content="{{ page.description | default: site.description | strip_newlines }}">
+  <meta name="author" content="{{ site.author.name }}">
+  <link rel="canonical" href="{{ page.url | absolute_url }}">
 
+  {%- comment -%} Link previews when the page is shared (Slack, LinkedIn, ...) {%- endcomment -%}
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="{{ page.title | default: site.title }}">
+  <meta property="og:description" content="{{ page.description | default: site.description | strip_newlines }}">
+  <meta property="og:url" content="{{ page.url | absolute_url }}">
+  <meta property="og:image" content="{{ site.author.photo | absolute_url }}">
+  <meta name="twitter:card" content="summary">
+
+  <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+
+  <link rel="icon" href="{{ '/assets/favicon/favicon.ico' | relative_url }}" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="{{ '/assets/favicon/favicon-32x32.png' | relative_url }}">
+  <link rel="icon" type="image/png" sizes="16x16" href="{{ '/assets/favicon/favicon-16x16.png' | relative_url }}">
+  <link rel="apple-touch-icon" href="{{ '/assets/favicon/apple-touch-icon.png' | relative_url }}">
+
+  {% feed_meta %}
+</head>
+
+<body>
+
+  {%- comment -%}
+    The bar at the top of every page. It stays visible as you scroll.
+    The first four links jump to a section of the homepage; the last two go
+    to a different address.
+  {%- endcomment -%}
+  <header class="site-header">
+    <nav class="site-nav">
+      <a class="site-nav__name" href="{{ '/' | relative_url }}">{{ site.author.name }}</a>
+      <ul class="site-nav__links">
+        <li><a href="{{ '/#about' | relative_url }}">About</a></li>
+        <li><a href="{{ '/#news' | relative_url }}">News</a></li>
+        <li><a href="{{ '/#publications' | relative_url }}">Publications</a></li>
+        <li><a href="{{ '/#teaching' | relative_url }}">Teaching</a></li>
+        <li><a href="{{ '/files/cv.pdf' | relative_url }}">CV</a></li>
+        <li><a href="{{ '/flan/' | relative_url }}">Flans</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="page">
     {{ content }}
+  </main>
 
-    <div class="page__footer">
-      <footer>
-        {% include footer/custom.html %}
-        {% include footer.html %}
-      </footer>
-    </div>
+  <footer class="site-footer">
+    <p>
+      &copy; {{ 'now' | date: "%Y" }} {{ site.author.name }} ·
+      Built with <a href="https://jekyllrb.com">Jekyll</a>, hosted on GitHub&nbsp;Pages
+    </p>
+  </footer>
 
-    {% include scripts.html %}
+  {%- comment -%}
+    Highlights the nav link for whichever section you have scrolled to, so a
+    long homepage stays easy to place yourself in.
 
-  </body>
+    It does nothing on pages that have none of these sections (the flan page),
+    and nothing in browsers without IntersectionObserver — in both cases the
+    nav simply behaves as it did before.
+  {%- endcomment -%}
+  <script>
+    (function () {
+      // Pair each nav link that points at "#something" with that section.
+      // On the flan page none of them match, so `pairs` is empty and we stop.
+      var pairs = [];
+      var links = document.querySelectorAll('.site-nav__links a[href*="#"]');
+      for (var i = 0; i < links.length; i++) {
+        var section = document.getElementById(links[i].href.split('#')[1]);
+        if (section) { pairs.push({ link: links[i], section: section }); }
+      }
+      if (!pairs.length) { return; }
+
+      // An imaginary line a third of the way down the window. Whichever
+      // section has most recently passed above it is the one you are reading.
+      function update() {
+        var line = window.scrollY + window.innerHeight * 0.33;
+        var current = null;
+        for (var i = 0; i < pairs.length; i++) {
+          var top = pairs[i].section.getBoundingClientRect().top + window.scrollY;
+          if (top <= line) { current = pairs[i]; }
+        }
+        for (var j = 0; j < pairs.length; j++) {
+          if (pairs[j] === current) { pairs[j].link.classList.add('is-current'); }
+          else { pairs[j].link.classList.remove('is-current'); }
+        }
+      }
+
+      // Scroll events arrive far faster than the screen redraws, so do the work
+      // at most once per frame.
+      var pending = false;
+      function onScroll() {
+        if (pending) { return; }
+        pending = true;
+        window.requestAnimationFrame(function () { pending = false; update(); });
+      }
+
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', onScroll);
+      update();
+    })();
+  </script>
+
+  {%- comment -%}
+    Maths rendering. Only loaded on pages whose front matter says `math: true`
+    (the homepage does, because a couple of abstracts contain formulas).
+  {%- endcomment -%}
+  {% if page.math %}
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
+      options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre'] }
+    };
+  </script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+  {% endif %}
+
+</body>
 </html>

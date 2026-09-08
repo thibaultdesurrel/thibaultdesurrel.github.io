@@ -1,0 +1,214 @@
+---
+layout: default
+math: true          # loads MathJax, because some abstracts contain formulas
+---
+
+{%- comment -%}
+  ===========================================================================
+  THE HOMEPAGE
+
+  You should rarely need to edit this file. It only decides how things are
+  ARRANGED — the content itself lives elsewhere:
+
+     the bio below ............ in this file (the <div class="bio"> block)
+     your name, photo, links .. in _config.yml
+     news ..................... in _data/news.yml
+     publications ............. one file each in _publications/
+     teaching ................. in _data/teaching.yml
+
+  See README.md for step-by-step instructions.
+  ===========================================================================
+{%- endcomment -%}
+
+
+<!-- ---------- Photo, name and contact links ---------- -->
+
+<section class="section section--intro" id="about">
+
+  <div class="intro">
+    <img class="intro__photo" src="{{ site.author.photo | relative_url }}"
+         alt="Photograph of {{ site.author.name }}">
+
+    <div class="intro__text">
+      <h1 class="intro__name">{{ site.author.name }}</h1>
+
+      <p class="intro__role">
+        {{ site.author.role }}<br>
+        <a href="{{ site.author.affiliation_url }}">{{ site.author.affiliation }}</a>
+      </p>
+
+      <div class="intro__links">
+        {%- if site.author.email %}
+        <a href="mailto:{{ site.author.email }}">
+          {% include icons.html name="email" %}Email
+        </a>
+        {%- endif %}
+        {%- if site.author.scholar %}
+        <a href="{{ site.author.scholar }}">
+          {% include icons.html name="scholar" %}Google Scholar
+        </a>
+        {%- endif %}
+        {%- if site.author.github %}
+        <a href="{{ site.author.github }}">
+          {% include icons.html name="github" %}GitHub
+        </a>
+        {%- endif %}
+        {%- if site.author.linkedin %}
+        <a href="{{ site.author.linkedin }}">
+          {% include icons.html name="linkedin" %}LinkedIn
+        </a>
+        {%- endif %}
+      </div>
+    </div>
+  </div>
+
+  <!-- ---------- Your bio. Edit the text below freely. ---------- -->
+
+  <div class="bio">
+    <p>
+      Welcome to my professional page! I am a third year PhD student at
+      <a href="https://www.lamsade.dauphine.fr">LAMSADE</a>, at
+      <a href="https://dauphine.psl.eu">Université Paris Dauphine-PSL</a>, under the
+      supervision of
+      <a href="https://scholar.google.com/citations?user=NF_1_38AAAAJ&amp;hl=fr">Florian Yger</a>,
+      <a href="https://sylvchev.github.io">Sylvain Chevallier</a> and
+      <a href="https://sites.google.com/site/fabienlotte/Home">Fabien Lotte</a>.
+    </p>
+
+    <p>
+      My research focuses on Brain Computer Interfaces (BCI), and the goal of my PhD is to
+      learn context invariant representations for EEG data. These representations aim to
+      capture the underlying brain activity independent of external factors, such as
+      environmental conditions, cognitive states (intersession or intersubject
+      variabilities), or task requirements. By removing the influence of context, the
+      obtained representations can enhance the interpretability and generalization
+      capabilities of EEG analysis models.
+    </p>
+
+    <p>
+      The tools I use for this work come from the machine learning world, but also from
+      Riemannian geometry. Indeed, a very useful tool used when handling EEG data is its
+      covariance matrix, that lives on the Riemannian manifold of symmetric, positive and
+      definite matrices. Therefore, using geometry-aware algorithms and tools using this
+      specific Riemannian geometry is the gold standard when dealing with EEG data. More
+      generally, I work on probabilistic models and statistics on Riemannian manifolds.
+    </p>
+
+    <p>
+      Feel free to contact me if you want to learn more about my research! I also love
+      flan — for a curated list of the ones I have tested, look
+      <a href="{{ '/flan/' | relative_url }}">here</a>.
+    </p>
+  </div>
+
+</section>
+
+
+<!-- ---------- News (from _data/news.yml) ---------- -->
+
+{%- comment -%}
+  Every news item is listed. Once there are more than fit, the box scrolls
+  rather than making the page longer — that is pure CSS (`.news-scroll` in the
+  stylesheet), so there is nothing to configure here. Its height is set by
+  `--news-height` at the top of assets/css/style.scss.
+
+  `tabindex` and `role` let someone navigating by keyboard put the box under
+  the arrow keys; without them a scrolling area is unreachable that way.
+{%- endcomment -%}
+{%- assign news = site.data.news | sort: "date" | reverse -%}
+{%- if news.size > 0 %}
+<section class="section section--panel" id="news">
+  <h2 class="section__title">News</h2>
+
+  <div class="news-scroll" tabindex="0" role="region" aria-label="News">
+    <ul class="news">
+      {%- for item in news %}
+      <li class="news__item">
+        <span class="news__date">{{ item.date | date: "%b %Y" }}</span>
+        <div class="news__text">{{ item.text | markdownify }}</div>
+      </li>
+      {%- endfor %}
+    </ul>
+    {%- comment -%}
+      A strip that hangs at the bottom edge of the box and fades the text into
+      the panel, so it is obvious the list carries on. It is decoration only —
+      see `.news-fade` in the stylesheet for how it knows to get out of the way
+      at the end of the list.
+    {%- endcomment -%}
+    <div class="news-fade" aria-hidden="true"></div>
+  </div>
+</section>
+{%- endif %}
+
+
+<!-- ---------- Publications (from the _publications/ folder) ---------- -->
+
+{%- assign publications = site.publications | sort: "date" | reverse -%}
+{%- assign pub_limit = site.homepage.publications_shown -%}
+{%- if publications.size > 0 %}
+<section class="section section--panel" id="publications">
+  <h2 class="section__title">
+    Publications
+    <span class="section__count">{{ publications.size }}</span>
+  </h2>
+
+  <div id="publications-list">
+    {%- comment -%}
+      Papers are grouped under the year they were published. `current_year`
+      keeps track of which heading was printed last, so a new heading only
+      appears when the year changes.
+
+      Papers past `homepage.publications_shown` are marked `data-extra` so the
+      "Show all" button can reveal them. A year heading gets the same mark when
+      its own first paper is already past the cut-off — otherwise a bare year
+      would be left hanging above nothing.
+    {%- endcomment -%}
+    {%- assign current_year = "" -%}
+    {%- for pub in publications -%}
+      {%- assign year = pub.date | date: "%Y" -%}
+      {%- if forloop.index > pub_limit -%}
+        {%- assign is_extra = true -%}
+      {%- else -%}
+        {%- assign is_extra = false -%}
+      {%- endif -%}
+      {%- if year != current_year -%}
+        <h3 class="pub-year"{% if is_extra %} data-extra{% endif %}>{{ year }}</h3>
+        {%- assign current_year = year -%}
+      {%- endif -%}
+      {% include publication.html pub=pub extra=is_extra %}
+    {%- endfor %}
+  </div>
+
+  {%- if publications.size > pub_limit %}
+    {% include show-more.html container="publications-list" total=publications.size noun="publications" %}
+  {%- endif %}
+
+</section>
+{%- endif %}
+
+
+<!-- ---------- Teaching (from _data/teaching.yml) ---------- -->
+
+{%- if site.data.teaching.size > 0 %}
+<section class="section section--panel" id="teaching">
+  <h2 class="section__title">Teaching</h2>
+
+  {%- for course in site.data.teaching %}
+  <div class="course">
+    <h3 class="course__title">{{ course.title }}</h3>
+    <p class="course__meta">
+      {{ course.level }} · {{ course.venue }}
+      {%- if course.supervisor %}
+      <br>Teaching supervisor:
+        {%- if course.supervisor_url %}
+        <a href="{{ course.supervisor_url }}">{{ course.supervisor }}</a>
+        {%- else %}
+        {{ course.supervisor }}
+        {%- endif -%}
+      {%- endif %}
+      <br><span class="course__years">{{ course.years | join: " · " }}</span>
+    </p>
+  </div>
+  {%- endfor %}
+</section>
+{%- endif %}

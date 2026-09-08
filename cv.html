@@ -1,0 +1,20 @@
+---
+permalink: /cv/
+sitemap: false
+---
+{%- comment -%}
+  Redirects the old /cv/ address to the CV PDF.
+  The PDF must be saved as  files/cv.pdf  for this to work.
+{%- endcomment -%}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="refresh" content="0; url={{ '/files/cv.pdf' | absolute_url }}">
+  <meta name="robots" content="noindex">
+  <title>Redirecting…</title>
+</head>
+<body>
+  <p>Redirecting to <a href="{{ '/files/cv.pdf' | absolute_url }}">the CV</a>…</p>
+</body>
+</html>

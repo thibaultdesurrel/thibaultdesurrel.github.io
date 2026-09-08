@@ -1,0 +1,65 @@
+{%- comment -%}
+  A button that expands a list that has been cut short, and collapses it again.
+
+  Parameters:
+    container — the id of the element holding the list items
+    total     — how many items there are altogether
+    noun      — what to call them, e.g. "publications"
+
+  How the collapsing works, and why it is done this way:
+
+  The items beyond the cut-off are marked `data-extra` in the HTML but are NOT
+  hidden there. This script adds the class `show-more-collapsed` to the
+  container, and the stylesheet hides `[data-extra]` inside a collapsed
+  container. That means:
+
+    * with JavaScript — the list collapses immediately, because this script sits
+      inline right after the list and runs before the page is painted;
+    * without JavaScript — nothing is ever hidden and no button appears, so
+      every item is still reachable.
+
+  Hiding the items in the HTML instead (with the `hidden` attribute) would need
+  CSS to un-hide them for people without JavaScript, and that CSS would have to
+  know whether the items are laid out as blocks or as a grid. Collapsing with a
+  class avoids the problem entirely.
+{%- endcomment -%}
+
+<button class="show-more" type="button"
+        id="{{ include.container }}-more"
+        aria-controls="{{ include.container }}"
+        aria-expanded="false"
+        hidden>Show all {{ include.total }} {{ include.noun }}</button>
+
+<script>
+  (function () {
+    var list   = document.getElementById({{ include.container | jsonify }});
+    var button = document.getElementById({{ include.container | jsonify }} + '-more');
+    if (!list || !button) { return; }
+
+    var labelExpand   = {{ "Show all " | append: include.total | append: " " | append: include.noun | jsonify }};
+    var labelCollapse = {{ "Show fewer " | append: include.noun | jsonify }};
+
+    list.classList.add('show-more-collapsed');
+    button.hidden = false;
+
+    button.addEventListener('click', function () {
+      // Where the button sits on screen right now. Collapsing removes items
+      // from ABOVE it, so without correcting for that the page would lurch and
+      // leave the reader somewhere further down than they expected.
+      var before = button.getBoundingClientRect().top;
+
+      var collapsed = list.classList.toggle('show-more-collapsed');
+
+      button.textContent = collapsed ? labelExpand : labelCollapse;
+      button.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
+
+      // Only when collapsing: put the button back under the reader's eye.
+      // When expanding we deliberately stay put, so the newly revealed items
+      // appear in view rather than scrolling past.
+      if (collapsed) {
+        var after = button.getBoundingClientRect().top;
+        window.scrollBy({ top: after - before, behavior: 'instant' });
+      }
+    });
+  })();
+</script>
