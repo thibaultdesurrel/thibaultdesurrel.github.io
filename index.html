@@ -129,6 +129,13 @@ math: true          # loads MathJax, because some abstracts contain formulas
       </li>
       {%- endfor %}
     </ul>
+    {%- comment -%}
+      A strip that hangs at the bottom edge of the box and fades the text into
+      the panel, so it is obvious the list carries on. It is decoration only —
+      see `.news-fade` in the stylesheet for how it knows to get out of the way
+      at the end of the list.
+    {%- endcomment -%}
+    <div class="news-fade" aria-hidden="true"></div>
   </div>
 </section>
 {%- endif %}

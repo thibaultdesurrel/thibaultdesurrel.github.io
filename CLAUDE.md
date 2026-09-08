@@ -106,26 +106,42 @@ is a decision, not an oversight — do not "tidy" it by making them match.
   each carries an expandable abstract, and opening one inside a fixed-height box
   means reading a long paragraph through a small window while the box jumps.
 
-### The News scrollbar
+### Signalling that the News box scrolls
 
-`.news-scroll` must show its scrollbar permanently, or the box reads as a
-complete short list. Two traps, both verified by measurement:
+The scrollbar cannot carry this: macOS floats it over the content and fades it
+out when you stop scrolling, so a box with more news in it looks exactly like a
+complete short one. `.news-fade` handles it instead — a strip that dissolves the
+text into the panel at the bottom edge.
 
-- **Setting `scrollbar-width` or `scrollbar-color` makes Chrome ignore the
-  `::-webkit-scrollbar` rules** and fall back to the overlay scrollbar that
-  fades out. Measured gutter: 0px with either standard property present, 7–8px
-  with the WebKit rules alone. Hence the `@supports not selector(...)` guard,
-  which hands the standard properties only to Firefox.
-- **That guard is written `@supports not #{"selector(...)"}`** because GitHub
-  Pages compiles with libsass, which cannot parse `selector()` and fails the
-  build. The interpolation passes it through untouched.
+**`position: sticky; bottom: 0` is the whole mechanism**, and it is what lets
+this work with no JavaScript. The strip is the last child of the scrolling box,
+so it manages all three cases by itself:
 
-`--scrollbar` is a separate colour token because `--rule` is far too faint
-against the page background (measured ≈1.2:1 contrast — invisible).
+| situation | where the strip lands | effect |
+|---|---|---|
+| part-way down the list | stuck to the bottom edge | fades the text under it |
+| scrolled to the end | its natural place, below the last item | gradient to the panel colour, over the panel — invisible |
+| too few items to overflow | never leaves the bottom | invisible |
+
+Measured, scrolled to top: darkest pixel per row goes 28 → 116 → 236 against a
+240 background across the strip. Scrolled to the bottom the last row measures
+28 — untouched. Dark mode behaves identically (228 → 148 → 37) because the
+gradient ends at `var(--bg-soft)`.
+
+Do **not** reintroduce `::-webkit-scrollbar` styling to force a permanent
+scrollbar. It was tried and removed: it needed an `@supports not
+#{"selector(...)"}` guard (because setting `scrollbar-width` makes Chrome
+ignore the WebKit rules entirely, and because libsass cannot parse `selector()`
+and fails the build), plus a dedicated colour token — a lot of machinery for a
+weaker cue.
+
+The strip adds its own height to the content, so a box that does not overflow
+is ~2rem taller than its items. That is deliberate: a negative margin would put
+the gradient back over the last item at the end of the list.
 
 The `@media print` rule that drops the `max-height` is also load-bearing:
 without it a printed page silently shows one boxful. Measured 7 pages with it,
-4 without, at 60 news items.
+4 without, at 60 news items. The strip is hidden in print for the same reason.
 
 ## The show-more pattern (Publications)
 

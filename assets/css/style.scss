@@ -35,8 +35,6 @@
   --accent:      #1a4d7a;   /* links and highlights, a deep blue */
   --accent-soft: #e8eff5;   /* faint accent wash */
   --rule:        #e3ded5;   /* hairlines and borders */
-  --scrollbar:   #b9b2a6;   /* the News scrollbar; darker than --rule so it is
-                               actually noticeable against the background */
 
   --font-serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia,
                 "Times New Roman", serif;
@@ -47,7 +45,7 @@
 
   /* How wide the introduction at the top of the homepage gets. It is narrower
      than the rest on purpose — see `.section--intro` below. */
-  --intro-width: 38rem;
+  --intro-width: 55rem;
 
   /* How tall the News box grows before it starts scrolling inside itself.
      35vh is 35% of the window height, so it adapts to the visitor's screen.
@@ -67,7 +65,6 @@
     --accent:      #85b4de;
     --accent-soft: #1f2a35;
     --rule:        #2c2e33;
-    --scrollbar:   #4d5158;
   }
 
   /* Photographs look harsh at full brightness on a dark page. */
@@ -333,43 +330,42 @@ h1, h2, h3 {
 .news-scroll {
   max-height: var(--news-height);
   overflow-y: auto;
-  padding-right: 0.6rem;   /* a little air between the text and the scrollbar */
+  padding-right: 0.6rem;   /* clear of the scrollbar while it is on screen */
 }
 
-/* Show the scrollbar permanently rather than letting macOS fade it out —
-   otherwise the box looks like a complete, short list.
+/* The cue that the list carries on below.
 
-   The `@supports not` guard matters and is not tidiness: in current Chrome,
-   setting `scrollbar-width` makes the browser IGNORE the ::-webkit-scrollbar
-   rules below and fall back to the overlay scrollbar that fades away. So the
-   standard properties are given only to browsers that do not understand
-   ::-webkit-scrollbar — in practice Firefox — and Chrome and Safari are left to
-   the WebKit rules, which do produce a scrollbar that always shows.
+   The scrollbar cannot be relied on for this: macOS floats it over the content
+   and fades it out when you stop scrolling, so a box with more news in it looks
+   identical to a complete short one. Instead the text dissolves into the panel
+   at the bottom edge.
 
-   Measured: with either standard property set, the scrollbar takes 0px of
-   width (overlay, fades out); with the WebKit rules alone, 8px (always shown).
+   `position: sticky; bottom: 0` is what makes this work without any
+   JavaScript. The strip is the last thing in the scrolling box, so:
 
-   The #{"…"} is not a typo. GitHub Pages compiles this file with an old Sass
-   version that cannot parse `selector(…)` and fails the build; wrapping it in
-   interpolation passes it through to the CSS untouched. */
-@supports not #{"selector(::-webkit-scrollbar)"} {
-  .news-scroll {
-    scrollbar-width: thin;                          /* Firefox */
-    scrollbar-color: var(--scrollbar) transparent;  /* Firefox: thumb, track */
-  }
+     * part-way down the list its natural place is below the visible area, so it
+       sticks to the bottom edge and fades whatever is under it;
+     * at the very end of the list it reaches its natural place — below the last
+       item, over blank panel — and a gradient that fades to the panel colour
+       over the panel colour is invisible. It stops lying, by itself;
+     * with only a few news items nothing overflows, so it never leaves the
+       bottom of the box and is likewise invisible.
+
+   It fades to `--bg-soft`, the panel colour, so dark mode is handled by the
+   variable and needs no rule of its own. */
+.news-fade {
+  position: sticky;
+  bottom: 0;
+  height: 2rem;
+  background: linear-gradient(to bottom, transparent, var(--bg-soft));
+  pointer-events: none;   /* never swallow a click meant for a link beneath */
 }
-.news-scroll::-webkit-scrollbar { width: 7px; }
-.news-scroll::-webkit-scrollbar-track { background: transparent; }
-.news-scroll::-webkit-scrollbar-thumb {
-  background: var(--scrollbar);
-  border-radius: 999px;
-}
-.news-scroll::-webkit-scrollbar-thumb:hover { background: var(--muted); }
 
 /* Printing ignores the box: otherwise the printed page would silently show
    only the first boxful of news. */
 @media print {
   .news-scroll { max-height: none; overflow: visible; padding-right: 0; }
+  .news-fade { display: none; }   /* nothing left to hint at once it all prints */
 }
 
 .news { list-style: none; margin: 0; padding: 0; }
