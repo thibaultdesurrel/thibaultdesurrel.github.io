@@ -13,6 +13,13 @@
 #  Careful with the indentation: the dash goes at the very start of the line,
 #  and `text:` lines up underneath `date:` with two extra spaces.
 # =============================================================================
+- date: 2026-11-06
+  text: "On November the 6th, I succefully defended my PhD entitled *Wrapping Around the Manifold: Geometric Statistics for Brain-Computer Interfaces*!"
+
+
+- date: 2026-11-02
+  text: "Our paper [*Wrapped Flow Matching for Symmetric Positive Definite Matrices*](/files/WCFM-TMLR-26.pdf) with [Aimi Okabayashi](https://scholar.google.com/citations?user=Z4C6E-EAAAAJ&hl=fr&oi=ao) has been accepted to TMLR!"
+
 
 - date: 2026-09-22
   text: "On September 22th, I will be giving a talk at the [CuttingGarden 2026](https://cuttingeeg.org/cuttinggardens2026/) at the Brain Institute in Paris on *How can one use Riemannian geometry to design better BCIs* ! Looking forward to meeting you all there!"
