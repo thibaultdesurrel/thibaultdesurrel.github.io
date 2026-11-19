@@ -1,3 +1,14 @@
+- name: Jolie Miche Batignolles
+  address: 176 Av. de Clichy, 75017 Paris
+  date: Septembre 2026
+  photo: /images/flan/jolie_miche.jpg
+  description: Très bonne texture crémeuse. Bon goût, légèrement caramélisé sur le dessus. Équilibré en sucre et en vanille 
+  rating: 4
+  prix: 4.0
+  lat: 48.891021728515625
+  lng: 2.3194684982299805
+
+
 - name: À la Mère de Famille
   address: 58 Rue de Lévis, 75017 Paris
   date: Septembre 2026
